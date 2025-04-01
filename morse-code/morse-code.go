@@ -54,6 +54,7 @@ var toMorse = map[string]rune{
 	"-....-": '-',
 	"-..-.":  '/',
 	"-...-":  '=',
+	"/":      ' ',
 }
 
 func reverseMap() map[rune]string {
@@ -65,15 +66,15 @@ func reverseMap() map[rune]string {
 }
 
 func ReadMorseIntoString(msg string) (string, error) {
-	for _, e := range msg {
-		if e != ' ' && e != '.' && e != '-' {
-			return "", fmt.Errorf("Morse code contains invalid character: %q, can only contain '.','-', or ' '", e)
-		}
-	}
+	// for _, e := range msg {
+	// 	if e != ' ' && e != '.' && e != '-' && e != '/' {
+	// 		return "", fmt.Errorf("Morse code contains invalid character: %q, can only contain '.','-', or ' '", e)
+	// 	}
+	// }
 
+	parts := strings.Split(msg, " ")
 	translated := ""
-	command := strings.Split(msg, " ")
-	for _, e := range command {
+	for _, e := range parts[:len(parts)-1] {
 		char, ok := toMorse[e]
 		if !ok {
 			return "", fmt.Errorf("Invalid morse code character: %s", e)
@@ -85,5 +86,17 @@ func ReadMorseIntoString(msg string) (string, error) {
 }
 
 func ReadStringIntoMorse(msg string) (string, error) {
-	return "", nil
+	msg = strings.ToUpper(msg)
+	converter := reverseMap()
+
+	morseCode := ""
+	for _, e := range msg {
+		code, ok := converter[e]
+		if !ok {
+			return "", fmt.Errorf("Character %q cannot be translated to morse code", e)
+		}
+		morseCode += code + " "
+	}
+
+	return morseCode, nil
 }
