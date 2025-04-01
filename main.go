@@ -1,20 +1,21 @@
 package main
 
 import (
-	"context"
 	"fmt"
 
-	"github.com/terminaldotshop/terminal-sdk-go"
-	"github.com/terminaldotshop/terminal-sdk-go/option"
+	morsecode "github.com/ikozor/terminal.tap/morse-code"
+	"github.com/ikozor/terminal.tap/repl"
 )
 
 func main() {
-	client := terminal.NewClient(
-		option.WithBaseURL("https://api.dev.terminal.shop"), // the Double Slash was causing panic 
-	)
-	product, err := client.Product.List(context.TODO())
-	if err != nil {
-		panic(err.Error())
+
+	r := repl.NewRepl()
+	fmt.Print("\033[H\033[2J")
+	for {
+		if err := r.Read(); err != nil {
+			fmt.Println(morsecode.ReadStringIntoMorse(err.Error()))
+			continue
+		}
+
 	}
-	fmt.Printf("%+v\n", product.Data)
 }
