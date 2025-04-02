@@ -100,12 +100,16 @@ func (r *repl) Evaluate() error {
 				if err != nil {
 					return "", err
 				}
-				product := fmt.Sprintf("Name: %s, Description: %s, ",
+				if len(res.Variants) < 1 {
+					return "", fmt.Errorf("No Variants for product")
+				}
+				product := fmt.Sprintf("Name: %s, Type: %s, Price: %d, Description: %s",
 					res.Name,
+					res.Variants[0].Name,
+					res.Variants[0].Price,
 					res.Description,
 				)
 				return product, nil
-
 			}
 		}
 	case "ADD":
