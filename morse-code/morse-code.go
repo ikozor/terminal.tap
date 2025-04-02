@@ -44,17 +44,19 @@ var toMorse = map[string]rune{
 	"----.": '9',
 	"-----": '0',
 
-	"..--..": '?',
-	"-.-.--": '!',
-	".-.-.-": '.',
-	"--..--": ',',
-	"-.-.-.": ';',
-	"---...": ':',
-	".-.-.":  '+',
-	"-....-": '-',
-	"-..-.":  '/',
-	"-...-":  '=',
-	"/":      ' ',
+	"..--..":  '?',
+	"-.-.--":  '!',
+	".-.-.-":  '.',
+	"--..--":  ',',
+	"-.-.-.":  ';',
+	"---...":  ':',
+	".-.-.":   '+',
+	"-....-":  '-',
+	"-..-.":   '/',
+	"-...-":   '=',
+	".--..--": '[',
+	"--..--.": ']',
+	"/":       ' ',
 }
 
 func reverseMap() map[rune]string {
@@ -74,7 +76,10 @@ func ReadMorseIntoString(msg string) (string, error) {
 
 	parts := strings.Split(msg, " ")
 	translated := ""
-	for _, e := range parts[:len(parts)-1] {
+	for _, e := range parts {
+		if e == "" || e == "\t" || e == " " {
+			continue
+		}
 		char, ok := toMorse[e]
 		if !ok {
 			return "", fmt.Errorf("Invalid morse code character: %s", e)
