@@ -8,7 +8,9 @@ import (
 )
 
 func main() {
+	fmt.Println(morsecode.ReadStringIntoMorse("[]{}()123."))
 
+	return
 	r := repl.NewRepl()
 	fmt.Print("\033[H\033[2J")
 	for {
