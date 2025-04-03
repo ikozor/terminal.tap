@@ -14,6 +14,18 @@ result: ```-.-. .-. --- -. --..-- / ..-. .-.. --- .-- --..-- / .- .-. - .. ... .
 
 plaintext result: ``` CRON, FLOW, ARTISAN, [OBJECT OBJECT], SEGFAULT, DARK MODE, 404 ```  
 
+### LIST ADDRESSES
+List add the addresses the user has saved
+
+**Example:**
+> Assuming the user has home and work addresses saved
+
+command: ```.-.. .. ... - / .- -.. -.. .-. . ... ... . ...```
+
+result: ```-.....- -. .- -- . ---... / .... --- -- . --..-- / ... - .-. . . - / .---- ---... / / .---- ..--- ...-- / .- -... -.-. / ... - --..-- / -.-. .. - -.-- ---... / / -.-. .. - -.-- --..-- / ... - .- - . ---... / ... - --..-- / --.. .. .--. -.-. --- -.. . ---... / .---- ..--- ...-- ....- ..... --..-- / -.-. --- ..- -. - .-. -.-- ---... / ..- ... --..-- / .--. .... --- -. . / -. ..- -- -... . .-. ---... / ....- ..--- ----- ..... ..... ..... -.... ----. -.... ----. .-----. --..-- / -.....- -. .- -- . ---... / .-- --- .-. -.- --..-- / ... - .-. . . - / .---- ---... / / ....- ..... -.... / .... . .-.. .-.. --- / .-.. -. --..-- / ... - .-. . . - / ..--- ---... / / ... . -.-. --- -. -.. / .--. .- .-. - --..-- / -.-. .. - -.-- ---... / / -.-. .. - -.-- --..-- / ... - .- - . ---... / ... - --..-- / --.. .. .--. -.-. --- -.. . ---... / .---- ..--- ...-- ....- ..... --..-- / -.-. --- ..- -. - .-. -.-- ---... / ..- ... --..-- / .--. .... --- -. . / -. ..- -- -... . .-. ---... / ....- ..--- ----- ..... ..... ..... -.... ----. -.... ----. .-----.```
+
+plaintext result: ```(NAME: HOME, STREET 1:  123 ABC ST, CITY:  CITY, STATE: ST, ZIPCODE: 12345, COUNTRY: US, PHONE NUMBER: 4205556969), (NAME: WORK, STREET 1:  456 HELLO LN, STREET 2:  SECOND PART, CITY:  CITY, STATE: ST, ZIPCODE: 12345, COUNTRY: US, PHONE NUMBER: 4205556969)```
+
 ## Get Actions
 
 ### GET PRODUCT <PRODUCT_NAME>
@@ -63,3 +75,38 @@ command: ```-.-. .- .-. - / .-. . -- --- ...- . / ... . --. ..-. .- ..- .-.. -``
 result: ```... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / .-. . -- --- ...- . -.. / .. - . -- / ..-. .-. --- -- / -.-. .- .-. -```
 
 plaintext result: ```SUCCESSFULLY REMOVED ITEM FROM CART```
+
+## Address Actions
+
+### ADDRESS ADD <NAME>, <STREET1>, <optional: STREET2>, <CITY>, <STATE>, <ZIPCODE>, <COUNTRY>, <PHONE NUMBER>
+Add new address with each part seperated by a comma (,)
+
+**Example:** ADDRESS ADD WORK, 456 HELLO LN, SECOND PART, CITY, ST, 12345, US, 4205556969
+
+command: ```.- -.. -.. .-. . ... ... / .- -.. -.. / .-- --- .-. -.- --..-- / ....- ..... -.... / .... . .-.. .-.. --- / .-.. -. --..-- / ... . -.-. --- -. -.. / .--. .- .-. - --..-- / -.-. .. - -.-- --..-- / ... - --..-- / .---- ..--- ...-- ....- ..... --..-- / ..- ... --..-- / ....- ..--- ----- ..... ..... ..... -.... ----. -.... ----.```
+
+result: ```... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / .- -.. -.. . -.. / .- -.. -.. .-. . ... ...```
+
+plaintext result: ```SUCCESSFULLY ADDED ADDRESS```
+
+### ADDRESS REMOVE <NAME>
+Remove all the addresses with that name
+
+**Example:** ADDRESS REMOVE WORK
+
+command: ```.- -.. -.. .-. . ... ... / .-. . -- --- ...- . / .-- --- .-. -.-```
+
+result: ```... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / .-. . -- --- ...- . -.. / .- -.. -.. .-. . ... ... ---... / .-- --- .-. -.-```
+
+plaintext result: ```SUCCESSFULLY REMOVED ADDRESS: WORK```
+
+### ADDRESS SET <NAME>
+Set the address that will be used for ordering and subscribing
+
+**Example:** ADDRESS SET WORK
+
+command ```.- -.. -.. .-. . ... ... / ... . - / .-- --- .-. -.-```
+
+result: ```.- -.. -.. . ... ... / .-- --- .-. -.- / ... . - / ... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.--```
+
+plaintext result: ```ADDRESS WORK SET SUCCESSFULLY```
