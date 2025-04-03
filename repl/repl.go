@@ -53,29 +53,16 @@ func (r *repl) Evaluate() error {
 		if line[1] != "PRODUCTS" {
 			return fmt.Errorf("Cannot list: %s", line[1])
 		}
-		r.currentCommand = func(i interface{}) (string, error) {
-			products, err := r.commandExecutor.ListProductNames()
-			if err != nil {
-				return "", err
-			}
-			if len(products) < 1 {
-				return "", fmt.Errorf("No products found")
-			}
+		r.listProducts()
 
-			productsString := ""
-			for _, e := range products {
-				productsString += e + ", "
-			}
-			return productsString[:len(productsString)-2], nil
-
-		}
-		r.args = nil
 	case "GET":
 		if len(line) < 2 {
 			return fmt.Errorf("what to get not passed")
 		}
-
 		switch line[1] {
+		case "CART":
+			r.getCart()
+
 		case "PRODUCT":
 			if len(line) < 3 {
 				return fmt.Errorf("Product to get not passed")
@@ -85,27 +72,8 @@ func (r *repl) Evaluate() error {
 				productName += e + " "
 			}
 			r.args = productName[:len(productName)-1]
+			r.getProduct()
 
-			r.currentCommand = func(i interface{}) (string, error) {
-				s, ok := i.(string)
-				if !ok {
-					return "", fmt.Errorf("invalid product: %v", i)
-				}
-				res, err := r.commandExecutor.GetProductInfo(s)
-				if err != nil {
-					return "", err
-				}
-				if len(res.Variants) < 1 {
-					return "", fmt.Errorf("No Variants for product")
-				}
-				product := fmt.Sprintf("Name: %s, Type: %s, Price: %d, Description: %s",
-					res.Name,
-					res.Variants[0].Name,
-					res.Variants[0].Price,
-					res.Description,
-				)
-				return product, nil
-			}
 		default:
 			return fmt.Errorf("Cannot Get: %s", line[1])
 
@@ -133,22 +101,8 @@ func (r *repl) Evaluate() error {
 				}
 				quantity = i
 			}
-			r.args = commands.CartItem{
-				ProductName: line[2],
-				Quantity:    quantity,
-			}
+			r.addtoCart(line[2], quantity)
 
-			r.currentCommand = func(i interface{}) (string, error) {
-				item, ok := i.(commands.CartItem)
-				if !ok {
-					return "", fmt.Errorf("invalid Item to add to cart: %v", i)
-				}
-
-				if err := r.commandExecutor.ManageCart(item.ProductName, item.Quantity); err != nil {
-					return "", err
-				}
-				return "Successfully added to cart", nil
-			}
 		case "REMOVE":
 			if len(line) < 3 {
 				return fmt.Errorf("Nothing to add to cart")
@@ -167,46 +121,19 @@ func (r *repl) Evaluate() error {
 				}
 				quantity = i * -1
 			}
-			r.args = commands.CartItem{
-				ProductName: line[2],
-				Quantity:    quantity,
+			r.removeFromCart(line[2], quantity)
+
+		case "SET":
+			if len(line) < 3 {
+				return fmt.Errorf("What to set unspecified")
 			}
+			switch line[2] {
+			case "ADDRESS":
 
-			r.currentCommand = func(i interface{}) (string, error) {
-				item, ok := i.(commands.CartItem)
-				if !ok {
-					return "", fmt.Errorf("invalid Item to add to cart: %v", i)
-				}
-
-				if err := r.commandExecutor.ManageCart(item.ProductName, item.Quantity); err != nil {
-					return "", err
-				}
-				return "Successfully removed item from cart", nil
+			case "CARD":
+			default:
+				return fmt.Errorf("Cannot card set: %s", line[2])
 			}
-
-		case "GET":
-			r.currentCommand = func(i interface{}) (string, error) {
-				cart, err := r.commandExecutor.GetCart()
-				if err != nil {
-					return "", err
-				}
-
-				cartString := ""
-				for _, e := range cart.Items {
-					cartString += fmt.Sprintf("(Name: %s, Price: %d USD, Quantity: %d), ",
-						e.ProductName,
-						e.Price,
-						e.Quantity,
-					)
-				}
-				cartString = cartString[:len(cartString)-2]
-
-				cartString += fmt.Sprintf(" Total: %d USD", cart.Total)
-
-				return cartString, nil
-			}
-			r.args = nil
-
 		default:
 			return fmt.Errorf("No cart action: %s", line[1])
 		}

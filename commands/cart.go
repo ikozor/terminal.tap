@@ -15,8 +15,10 @@ type CartItem struct {
 }
 
 type Cart struct {
-	Items []CartItem
-	Total int
+	Items   []CartItem
+	Total   int
+	Address *terminal.Address
+	Card    *terminal.Card
 }
 
 func (c *CommandExecutor) ManageCart(productName string, quantityDiff int) error {
