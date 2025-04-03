@@ -13,3 +13,11 @@ func (c *CommandExecutor) AddAddress(address terminal.AddressNewParams) error {
 	}
 	return nil
 }
+
+func (c *CommandExecutor) ListAddresses() ([]terminal.Address, error) {
+	res, err := c.client.Address.List(context.TODO())
+	if err != nil {
+		return nil, getApiErrorMessage(err)
+	}
+	return res.Data, nil
+}

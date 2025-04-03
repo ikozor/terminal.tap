@@ -49,3 +49,30 @@ func (r *repl) AddAddressAction(address terminal.AddressNewParams) {
 		return "Successfully added address", nil
 	}
 }
+
+func (r *repl) listAddresses() {
+	r.args = nil
+	r.currentCommand = func(i interface{}) (string, error) {
+		addresses, err := r.commandExecutor.ListAddresses()
+		if err != nil {
+			return "", err
+		}
+
+		addressList := ""
+		for _, address := range addresses {
+			addressList += fmt.Sprintf("(Name: %s, Street 1: %s, ", address.Name, address.Street1)
+			if address.Street2 != "" {
+				addressList += fmt.Sprintf("Street 2: %s, ", address.Street2)
+			}
+			addressList += fmt.Sprintf("City: %s, State: %s, Zipcode: %s, Country: %s, Phone Number: %s), ",
+				address.City,
+				address.Province,
+				address.Zip,
+				address.Country,
+				address.Phone,
+			)
+
+		}
+		return addressList[:len(addressList)-2], nil
+	}
+}

@@ -50,10 +50,16 @@ func (r *repl) Evaluate() error {
 		if len(line) < 2 {
 			return fmt.Errorf("What to list unknown")
 		}
-		if line[1] != "PRODUCTS" {
+		switch line[1] {
+		case "PRODUCTS":
+			r.listProducts()
+		case "ADDRESSES":
+			r.listAddresses()
+		default:
+			r.args = nil
+			r.currentCommand = nil
 			return fmt.Errorf("Cannot list: %s", line[1])
 		}
-		r.listProducts()
 
 	case "GET":
 		if len(line) < 2 {
@@ -75,6 +81,8 @@ func (r *repl) Evaluate() error {
 			r.getProduct()
 
 		default:
+			r.args = nil
+			r.currentCommand = nil
 			return fmt.Errorf("Cannot Get: %s", line[1])
 
 		}
@@ -122,6 +130,10 @@ func (r *repl) Evaluate() error {
 				quantity = i * -1
 			}
 			r.removeFromCart(line[2], quantity)
+		default:
+			r.args = nil
+			r.currentCommand = nil
+			return fmt.Errorf("Cart action not found: %s", line[1])
 
 		}
 
@@ -140,9 +152,14 @@ func (r *repl) Evaluate() error {
 				return err
 			}
 			r.AddAddressAction(address)
+		default:
+			r.args = nil
+			r.currentCommand = nil
+			return fmt.Errorf("Address action not found: %s", line[1])
 		}
-
 	default:
+		r.args = nil
+		r.currentCommand = nil
 		return fmt.Errorf("Command not found: %s", command)
 
 	}
