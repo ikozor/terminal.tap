@@ -9,39 +9,11 @@ import (
 	"github.com/terminaldotshop/terminal-sdk-go/option"
 )
 
-/*
-list product
-
-get product
-	* name
-
-
-add to cart
-	* product name
-	* quantity
-
-get cart
-
-set address
-	* address
-
-set card
-	* card
-
-order
-
-order
-	loop:
-		* product name
-		* quantity
-	* address
-	* cardinfo
-
-*/
-
 type CommandExecutor struct {
 	client          *terminal.Client
 	currentProducts []terminal.Product
+	currentAddress  string
+	currentCard     string
 }
 
 func CreateCommandExecutor() *CommandExecutor {

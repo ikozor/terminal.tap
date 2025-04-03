@@ -152,6 +152,18 @@ func (r *repl) Evaluate() error {
 				return err
 			}
 			r.AddAddressAction(address)
+		case "REMOVE":
+			if len(line) < 3 {
+				return fmt.Errorf("Address to remove not specified")
+			}
+			r.removeAddress(line[2])
+
+		case "SET":
+			if len(line) < 3 {
+				return fmt.Errorf("No address to set specified")
+			}
+			r.setAddress(line[2])
+
 		default:
 			r.args = nil
 			r.currentCommand = nil

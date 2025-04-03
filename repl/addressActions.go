@@ -57,6 +57,9 @@ func (r *repl) listAddresses() {
 		if err != nil {
 			return "", err
 		}
+		if len(addresses) < 1 {
+			return "No Addresses saved", err
+		}
 
 		addressList := ""
 		for _, address := range addresses {
@@ -74,5 +77,38 @@ func (r *repl) listAddresses() {
 
 		}
 		return addressList[:len(addressList)-2], nil
+	}
+}
+
+func (r *repl) removeAddress(name string) {
+	r.args = name
+
+	r.currentCommand = func(i interface{}) (string, error) {
+		str, ok := i.(string)
+		if !ok {
+			return "", fmt.Errorf("invalid address name: %v", i)
+		}
+
+		if err := r.commandExecutor.RemoveAddress(str); err != nil {
+			return "", err
+		}
+
+		return fmt.Sprintf("Successfully Removed address: %s", name), nil
+	}
+}
+
+func (r *repl) setAddress(name string) {
+	r.args = name
+
+	r.currentCommand = func(i interface{}) (string, error) {
+		str, ok := i.(string)
+		if !ok {
+			return "", fmt.Errorf("invalid address name: %v", i)
+		}
+
+		if err := r.commandExecutor.SetAddress(str); err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("Addess %s set successfully", name), nil
 	}
 }
