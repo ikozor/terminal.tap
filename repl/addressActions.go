@@ -109,6 +109,6 @@ func (r *repl) setAddress(name string) {
 		if err := r.commandExecutor.SetAddress(str); err != nil {
 			return "", err
 		}
-		return fmt.Sprintf("Addess %s set successfully", name), nil
+		return fmt.Sprintf("Address %s set successfully", name), nil
 	}
 }
