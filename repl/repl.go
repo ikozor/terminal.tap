@@ -125,7 +125,23 @@ func (r *repl) Evaluate() error {
 
 		}
 
-	case "ORDER":
+	case "ADDRESS":
+		if len(line) < 2 {
+			return fmt.Errorf("No address action specified")
+		}
+		switch line[1] {
+		case "ADD":
+			if len(line) < 3 {
+				return fmt.Errorf("No address specified to add")
+			}
+			addressString := strings.Join(line[2:], " ")
+			address, err := validAddress(addressString)
+			if err != nil {
+				return err
+			}
+			r.AddAddressAction(address)
+		}
+
 	default:
 		return fmt.Errorf("Command not found: %s", command)
 

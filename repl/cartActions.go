@@ -27,11 +27,6 @@ func (r *repl) getCart() {
 
 		cartString += fmt.Sprintf("Total: %.2f USD", float32(cart.Total)/100)
 
-		if cart.Address != nil {
-		}
-		if cart.Card != nil {
-		}
-
 		return cartString, nil
 	}
 	r.args = nil
