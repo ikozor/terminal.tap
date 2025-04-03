@@ -2,9 +2,9 @@ package repl
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
 	"os"
+	"strconv"
 	"strings"
 
 	"github.com/ikozor/terminal.tap/commands"
@@ -31,12 +31,7 @@ func (r *repl) Read() error {
 	r.scanner.Scan()
 	text, err := morsecode.ReadMorseIntoString(r.scanner.Text())
 	if err != nil {
-		fmt.Println("READ ERROR: ", err)
-		errMessageInMorseCode, morseErr := morsecode.ReadStringIntoMorse(err.Error())
-		if morseErr != nil {
-			return morseErr
-		}
-		return errors.New(errMessageInMorseCode)
+		return err
 	}
 	r.line = text
 	return nil
@@ -77,13 +72,13 @@ func (r *repl) Evaluate() error {
 		r.args = nil
 	case "GET":
 		if len(line) < 2 {
-			return fmt.Errorf("What to get unknown")
+			return fmt.Errorf("what to get not passed")
 		}
 
 		switch line[1] {
 		case "PRODUCT":
 			if len(line) < 3 {
-				return fmt.Errorf("What product info to get unkown")
+				return fmt.Errorf("Product to get not passed")
 			}
 			productName := ""
 			for _, e := range line[2:] {
@@ -111,9 +106,111 @@ func (r *repl) Evaluate() error {
 				)
 				return product, nil
 			}
+		default:
+			return fmt.Errorf("Cannot Get: %s", line[1])
+
 		}
-	case "ADD":
-	case "SET":
+	case "CART":
+		if len(line) < 2 {
+			return fmt.Errorf("No cart action provided")
+		}
+		switch line[1] {
+		case "ADD":
+			if len(line) < 3 {
+				return fmt.Errorf("Nothing to add to cart")
+			}
+
+			var quantity int
+			if len(line) < 4 {
+				quantity = 1
+			} else {
+				i, err := strconv.Atoi(line[3])
+				if err != nil {
+					return fmt.Errorf("cannot convert quantity to string: %s", line[3])
+				}
+				if i < 1 {
+					return fmt.Errorf("cannot add by less than 1, got: %d", i)
+				}
+				quantity = i
+			}
+			r.args = commands.CartItem{
+				ProductName: line[2],
+				Quantity:    quantity,
+			}
+
+			r.currentCommand = func(i interface{}) (string, error) {
+				item, ok := i.(commands.CartItem)
+				if !ok {
+					return "", fmt.Errorf("invalid Item to add to cart: %v", i)
+				}
+
+				if err := r.commandExecutor.ManageCart(item.ProductName, item.Quantity); err != nil {
+					return "", err
+				}
+				return "Successfully added to cart", nil
+			}
+		case "REMOVE":
+			if len(line) < 3 {
+				return fmt.Errorf("Nothing to add to cart")
+			}
+
+			var quantity int
+			if len(line) < 4 {
+				quantity = 0
+			} else {
+				i, err := strconv.Atoi(line[3])
+				if err != nil {
+					return fmt.Errorf("cannot convert quantity to string: %s", line[3])
+				}
+				if i < 1 {
+					return fmt.Errorf("cannot remove by less than 1, got: %d", i)
+				}
+				quantity = i * -1
+			}
+			r.args = commands.CartItem{
+				ProductName: line[2],
+				Quantity:    quantity,
+			}
+
+			r.currentCommand = func(i interface{}) (string, error) {
+				item, ok := i.(commands.CartItem)
+				if !ok {
+					return "", fmt.Errorf("invalid Item to add to cart: %v", i)
+				}
+
+				if err := r.commandExecutor.ManageCart(item.ProductName, item.Quantity); err != nil {
+					return "", err
+				}
+				return "Successfully removed item from cart", nil
+			}
+
+		case "GET":
+			r.currentCommand = func(i interface{}) (string, error) {
+				cart, err := r.commandExecutor.GetCart()
+				if err != nil {
+					return "", err
+				}
+
+				cartString := ""
+				for _, e := range cart.Items {
+					cartString += fmt.Sprintf("(Name: %s, Price: %d USD, Quantity: %d), ",
+						e.ProductName,
+						e.Price,
+						e.Quantity,
+					)
+				}
+				cartString = cartString[:len(cartString)-2]
+
+				cartString += fmt.Sprintf(" Total: %d USD", cart.Total)
+
+				return cartString, nil
+			}
+			r.args = nil
+
+		default:
+			return fmt.Errorf("No cart action: %s", line[1])
+		}
+
 	case "ORDER":
 	default:
 		return fmt.Errorf("Command not found: %s", command)

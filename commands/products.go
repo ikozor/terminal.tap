@@ -11,7 +11,7 @@ import (
 func (c *CommandExecutor) ListProductNames() ([]string, error) {
 	products, err := c.client.Product.List(context.TODO())
 	if err != nil {
-		return nil, err
+		return nil, getApiErrorMessage(err)
 	}
 	c.currentProducts = products.Data
 	productNames := []string{}
@@ -22,20 +22,20 @@ func (c *CommandExecutor) ListProductNames() ([]string, error) {
 }
 
 func (c *CommandExecutor) GetProductInfo(productName string) (terminal.Product, error) {
-	productId, err := c.getProductId(productName)
+	productId, err := c.GetProductId(productName)
 	if err != nil {
 		return terminal.Product{}, err
 	}
 
 	productGetResponse, err := c.client.Product.Get(context.TODO(), productId)
 	if err != nil {
-		return terminal.Product{}, err
+		return terminal.Product{}, getApiErrorMessage(err)
 	}
 	product := productGetResponse.Data
 	return product, nil
 }
 
-func (c *CommandExecutor) getProductId(name string) (string, error) {
+func (c *CommandExecutor) GetProductId(name string) (string, error) {
 	if c.currentProducts == nil {
 		if err := c.populateCurrentProducts(); err != nil {
 			return "", err
@@ -55,10 +55,32 @@ func (c *CommandExecutor) getProductId(name string) (string, error) {
 
 }
 
+func (c *CommandExecutor) GetProductByVariantId(variantId string) (terminal.Product, error) {
+	if c.currentProducts == nil {
+		if err := c.populateCurrentProducts(); err != nil {
+			return terminal.Product{}, err
+		}
+	}
+	if len(c.currentProducts) < 1 {
+		if err := c.populateCurrentProducts(); err != nil {
+			return terminal.Product{}, err
+		}
+	}
+	for _, product := range c.currentProducts {
+		for _, variant := range product.Variants {
+			if variant.ID == variantId {
+				return product, nil
+			}
+		}
+	}
+	return terminal.Product{}, fmt.Errorf("Product Variant Id not found : %s", variantId)
+
+}
+
 func (c *CommandExecutor) populateCurrentProducts() error {
 	products, err := c.client.Product.List(context.TODO())
 	if err != nil {
-		return err
+		return getApiErrorMessage(err)
 	}
 	c.currentProducts = products.Data
 	return nil
