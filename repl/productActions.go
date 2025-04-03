@@ -35,10 +35,10 @@ func (r *repl) getProduct() {
 		if len(res.Variants) < 1 {
 			return "", fmt.Errorf("No Variants for product")
 		}
-		product := fmt.Sprintf("Name: %s, Type: %s, Price: %d, Description: %s",
+		product := fmt.Sprintf("Name: %s, Type: %s, Price: %.2f USD, Description: %s",
 			res.Name,
 			res.Variants[0].Name,
-			res.Variants[0].Price,
+			float32(res.Variants[0].Price)/100,
 			res.Description,
 		)
 		return product, nil

@@ -123,19 +123,6 @@ func (r *repl) Evaluate() error {
 			}
 			r.removeFromCart(line[2], quantity)
 
-		case "SET":
-			if len(line) < 3 {
-				return fmt.Errorf("What to set unspecified")
-			}
-			switch line[2] {
-			case "ADDRESS":
-
-			case "CARD":
-			default:
-				return fmt.Errorf("Cannot card set: %s", line[2])
-			}
-		default:
-			return fmt.Errorf("No cart action: %s", line[1])
 		}
 
 	case "ORDER":

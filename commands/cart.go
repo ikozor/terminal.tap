@@ -43,6 +43,10 @@ func (c *CommandExecutor) ManageCart(productName string, quantityDiff int) error
 		ProductVariantID: terminal.String(product.Variants[0].ID),
 		Quantity:         terminal.Int(int64(curQuantity + quantityDiff)),
 	}
+
+	if curQuantity+quantityDiff < 0 {
+		body.Quantity = terminal.Int(0)
+	}
 	if quantityDiff == 0 {
 		body.Quantity = terminal.Int(0)
 	}

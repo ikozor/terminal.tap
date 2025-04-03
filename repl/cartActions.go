@@ -15,9 +15,9 @@ func (r *repl) getCart() {
 
 		cartString := ""
 		for _, e := range cart.Items {
-			cartString += fmt.Sprintf("(Name: %s, Price: %d USD, Quantity: %d), ",
+			cartString += fmt.Sprintf("(Name: %s, Price: %.2f USD, Quantity: %d), ",
 				e.ProductName,
-				e.Price,
+				float32(e.Price)/100,
 				e.Quantity,
 			)
 		}
@@ -25,7 +25,7 @@ func (r *repl) getCart() {
 			cartString = cartString[:len(cartString)-2] + " "
 		}
 
-		cartString += fmt.Sprintf("Total: %d USD", cart.Total)
+		cartString += fmt.Sprintf("Total: %.2f USD", float32(cart.Total)/100)
 
 		if cart.Address != nil {
 		}
@@ -69,6 +69,7 @@ func (r *repl) removeFromCart(productName string, quantity int) {
 		}
 
 		if err := r.commandExecutor.ManageCart(item.ProductName, item.Quantity); err != nil {
+			fmt.Println("GOT HERE")
 			return "", err
 		}
 		return "Successfully removed item from cart", nil
