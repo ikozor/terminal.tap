@@ -78,7 +78,7 @@ plaintext result: ```SUCCESSFULLY REMOVED ITEM FROM CART```
 
 ## Address Actions
 
-### ADDRESS ADD <NAME>, <STREET1>, <optional: STREET2>, <CITY>, <STATE>, <ZIPCODE>, <COUNTRY>, <PHONE NUMBER>
+### ADDRESS ADD <ADDRESS_NAME>, <ADDRESS_STREET1>, <optional: ADDRESS_STREET2>, <ADDRESS_CITY>, <ADDRESS_STATE>, <ADDRESS_ZIPCODE>, <ADDRESS_COUNTRY>, <ADDRESS_PHONE_NUMBER>
 Add new address with each part seperated by a comma (,)
 
 **Example:** ADDRESS ADD WORK, 456 HELLO LN, SECOND PART, CITY, ST, 12345, US, 4205556969
@@ -89,7 +89,7 @@ result: ```... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / .- -.. -.. . -.
 
 plaintext result: ```SUCCESSFULLY ADDED ADDRESS```
 
-### ADDRESS REMOVE <NAME>
+### ADDRESS REMOVE <ADDRESS_NAME>
 Remove all the addresses with that name
 
 **Example:** ADDRESS REMOVE WORK
@@ -100,7 +100,7 @@ result: ```... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / .-. . -- --- ..
 
 plaintext result: ```SUCCESSFULLY REMOVED ADDRESS: WORK```
 
-### ADDRESS SET <NAME>
+### ADDRESS SET <ADDRESS_NAME>
 Set the address that will be used for ordering and subscribing
 
 **Example:** ADDRESS SET WORK
