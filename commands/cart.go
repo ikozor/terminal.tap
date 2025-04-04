@@ -10,6 +10,7 @@ import (
 
 type CartItem struct {
 	ProductName string
+	VariantId   int
 	Quantity    int
 	Price       int
 }
@@ -21,7 +22,7 @@ type Cart struct {
 	Card    *terminal.Card
 }
 
-func (c *CommandExecutor) ManageCart(productName string, quantityDiff int) error {
+func (c *CommandExecutor) ManageCart(productName string, variantId, quantityDiff int) error {
 	product, err := c.GetProductInfo(productName)
 	if err != nil {
 		return err
@@ -36,11 +37,11 @@ func (c *CommandExecutor) ManageCart(productName string, quantityDiff int) error
 			curQuantity = e.Quantity
 		}
 	}
-	if len(product.Variants) < 1 {
-		return fmt.Errorf("Product has no variants: %s", productName)
+	if len(product.Variants) < variantId+1 {
+		return fmt.Errorf("Product %s has no variants with variantId: %d", productName, variantId)
 	}
 	body := terminal.CartSetItemParams{
-		ProductVariantID: terminal.String(product.Variants[0].ID),
+		ProductVariantID: terminal.String(product.Variants[variantId].ID),
 		Quantity:         terminal.Int(int64(curQuantity + quantityDiff)),
 	}
 
@@ -68,7 +69,21 @@ func (c *CommandExecutor) GetCart() (Cart, error) {
 		if err != nil {
 			return Cart{}, err
 		}
-		cart.Items = append(cart.Items, CartItem{ProductName: product.Name, Quantity: int(e.Quantity), Price: int(e.Subtotal)})
+		variantId := -1
+		for i, v := range product.Variants {
+			if v.ID == e.ProductVariantID {
+				variantId = i
+			}
+		}
+		if variantId == -1 {
+			return Cart{}, fmt.Errorf("Variant not found")
+		}
+		cart.Items = append(cart.Items, CartItem{
+			ProductName: product.Name,
+			VariantId:   variantId,
+			Quantity:    int(e.Quantity),
+			Price:       int(e.Subtotal)},
+		)
 	}
 	cart.Total = int(res.Data.Subtotal)
 	return cart, nil

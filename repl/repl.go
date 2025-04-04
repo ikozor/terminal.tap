@@ -79,44 +79,58 @@ func (r *repl) Evaluate() error {
 			r.getCart()
 		case "ADD":
 			if len(line) < 3 {
-				return fmt.Errorf("Nothing to add to cart")
+				return fmt.Errorf("product to add not specified")
+			}
+			if len(line) < 4 {
+				return fmt.Errorf("variant to add not specified")
+			}
+			variant, err := strconv.Atoi(line[3])
+			if err != nil {
+				return fmt.Errorf("Variant id is not int: %s", line[3])
 			}
 
 			var quantity int
-			if len(line) < 4 {
+			if len(line) < 5 {
 				quantity = 1
 			} else {
-				i, err := strconv.Atoi(line[3])
+				i, err := strconv.Atoi(line[4])
 				if err != nil {
-					return fmt.Errorf("cannot convert quantity to string: %s", line[3])
+					return fmt.Errorf("cannot convert quantity to string: %s", line[4])
 				}
 				if i < 1 {
 					return fmt.Errorf("cannot add by less than 1, got: %d", i)
 				}
 				quantity = i
 			}
-			r.addtoCart(line[2], quantity)
+			r.addtoCart(line[2], variant, quantity)
 
 		case "REMOVE":
 			if len(line) < 3 {
-				return fmt.Errorf("Nothing to add to cart")
+				return fmt.Errorf("product to remove not specified")
+			}
+			if len(line) < 4 {
+				return fmt.Errorf("variant to remove not specified")
+			}
+			variant, err := strconv.Atoi(line[3])
+			if err != nil {
+				return fmt.Errorf("Variant id is not int: %s", line[3])
 			}
 
 			var quantity int
-			if len(line) < 4 {
+			if len(line) < 5 {
 				quantity = 0
 			} else {
-				i, err := strconv.Atoi(line[3])
+				i, err := strconv.Atoi(line[4])
 				if err != nil {
-					return fmt.Errorf("cannot convert quantity to string: %s", line[3])
+					return fmt.Errorf("cannot convert quantity to string: %s", line[4])
 				}
 				if i < 1 {
 					return fmt.Errorf("cannot remove by less than 1, got: %d", i)
 				}
 				quantity = i * -1
 			}
-			r.removeFromCart(line[2], quantity)
-		case "ORDER": 
+			r.removeFromCart(line[2], variant, quantity)
+		case "ORDER":
 			r.convertToOrder()
 		default:
 			return fmt.Errorf("Cart action not found: %s", line[1])

@@ -7,6 +7,7 @@ import (
 )
 
 func (r *repl) getCart() {
+	r.args = nil
 	r.currentCommand = func(i interface{}) (string, error) {
 		cart, err := r.commandExecutor.GetCart()
 		if err != nil {
@@ -15,8 +16,9 @@ func (r *repl) getCart() {
 
 		cartString := ""
 		for _, e := range cart.Items {
-			cartString += fmt.Sprintf("(Name: %s, Price: %.2f USD, Quantity: %d), ",
+			cartString += fmt.Sprintf("(Name: %s, Variant: %d, Price: %.2f USD, Quantity: %d), ",
 				e.ProductName,
+				e.VariantId,
 				float32(e.Price)/100,
 				e.Quantity,
 			)
@@ -32,9 +34,10 @@ func (r *repl) getCart() {
 	r.args = nil
 }
 
-func (r *repl) addtoCart(productName string, quantity int) {
+func (r *repl) addtoCart(productName string, variantId, quantity int) {
 	r.args = commands.CartItem{
 		ProductName: productName,
+		VariantId:   variantId,
 		Quantity:    quantity,
 	}
 
@@ -44,16 +47,17 @@ func (r *repl) addtoCart(productName string, quantity int) {
 			return "", fmt.Errorf("invalid Item to add to cart: %v", i)
 		}
 
-		if err := r.commandExecutor.ManageCart(item.ProductName, item.Quantity); err != nil {
+		if err := r.commandExecutor.ManageCart(item.ProductName, item.VariantId, item.Quantity); err != nil {
 			return "", err
 		}
 		return "Successfully added to cart", nil
 	}
 }
 
-func (r *repl) removeFromCart(productName string, quantity int) {
+func (r *repl) removeFromCart(productName string, variantId, quantity int) {
 	r.args = commands.CartItem{
 		ProductName: productName,
+		VariantId:   variantId,
 		Quantity:    quantity,
 	}
 
@@ -63,8 +67,7 @@ func (r *repl) removeFromCart(productName string, quantity int) {
 			return "", fmt.Errorf("invalid Item to add to cart: %v", i)
 		}
 
-		if err := r.commandExecutor.ManageCart(item.ProductName, item.Quantity); err != nil {
-			fmt.Println("GOT HERE")
+		if err := r.commandExecutor.ManageCart(item.ProductName, item.VariantId, item.Quantity); err != nil {
 			return "", err
 		}
 		return "Successfully removed item from cart", nil
