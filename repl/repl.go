@@ -55,6 +55,8 @@ func (r *repl) Evaluate() error {
 			r.listProducts()
 		case "ADDRESSES":
 			r.listAddresses()
+		case "CARDS":
+			r.listCards()
 		default:
 			r.args = nil
 			r.currentCommand = nil
@@ -169,6 +171,7 @@ func (r *repl) Evaluate() error {
 			r.currentCommand = nil
 			return fmt.Errorf("Address action not found: %s", line[1])
 		}
+	case "CARD":
 	default:
 		r.args = nil
 		r.currentCommand = nil

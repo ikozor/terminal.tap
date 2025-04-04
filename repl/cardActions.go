@@ -1,0 +1,29 @@
+package repl
+
+import "fmt"
+
+func (r *repl) listCards() {
+	r.args = nil
+
+	r.currentCommand = func(i interface{}) (string, error) {
+		cards, err := r.commandExecutor.ListCards()
+		if err != nil {
+			return "", err
+		}
+		if len(cards) < 1 {
+			return "No cards saved", nil
+		}
+
+		cardsList := "("
+		for _, e := range cards {
+			cardsList += fmt.Sprintf("%s, Last 4: %s, Exp: %d/%d), ",
+				e.Brand,
+				e.Last4,
+				e.Expiration.Month,
+				e.Expiration.Year,
+			)
+		}
+
+		return cardsList[:len(cardsList)-2], nil
+	}
+}
