@@ -73,3 +73,28 @@ func (c *CommandExecutor) GetCart() (Cart, error) {
 	cart.Total = int(res.Data.Subtotal)
 	return cart, nil
 }
+
+func (c *CommandExecutor) ConvertToOrder() (terminal.OrderTracking, error) {
+	if c.currentAddress == "" {
+		return terminal.OrderTracking{}, fmt.Errorf("Address is not set, use ADDRESS SET")
+	}
+	if c.currentCard == "" {
+		return terminal.OrderTracking{}, fmt.Errorf("Card is not set, use CARD SET")
+	}
+	_, err := c.client.Cart.SetCard(context.TODO(),
+		terminal.CartSetCardParams{CardID: terminal.String(c.currentCard)})
+	if err != nil {
+		return terminal.OrderTracking{}, getApiErrorMessage(err)
+	}
+	_, err = c.client.Cart.SetAddress(context.TODO(),
+		terminal.CartSetAddressParams{AddressID: terminal.String(c.currentAddress)})
+	if err != nil {
+		return terminal.OrderTracking{}, getApiErrorMessage(err)
+	}
+
+	res, err := c.client.Cart.Convert(context.TODO())
+	if err != nil {
+		return terminal.OrderTracking{}, getApiErrorMessage(err)
+	}
+	return res.Data.Tracking, nil
+}

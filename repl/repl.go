@@ -116,6 +116,8 @@ func (r *repl) Evaluate() error {
 				quantity = i * -1
 			}
 			r.removeFromCart(line[2], quantity)
+		case "ORDER": 
+			r.convertToOrder()
 		default:
 			return fmt.Errorf("Cart action not found: %s", line[1])
 

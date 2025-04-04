@@ -70,3 +70,22 @@ func (r *repl) removeFromCart(productName string, quantity int) {
 		return "Successfully removed item from cart", nil
 	}
 }
+
+func (r *repl) convertToOrder() {
+	r.args = nil
+	r.currentCommand = func(i interface{}) (string, error) {
+		tracking, err := r.commandExecutor.ConvertToOrder()
+		if err != nil {
+			return "", err
+		}
+		info := fmt.Sprintf("Tracking Info: Service: %s, Number: %s, url: %s",
+			tracking.Service,
+			tracking.Number,
+			tracking.URL,
+		)
+
+		return info, nil
+
+	}
+
+}
