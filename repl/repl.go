@@ -204,7 +204,16 @@ func (r *repl) Evaluate() error {
 			}
 			switch line[2] {
 			case "EMAIL":
+				if len(line) < 4 {
+					return fmt.Errorf("email to set not specified")
+				}
+				r.setProfileEmail(line[3])
 			case "NAME":
+				if len(line) < 4 {
+					return fmt.Errorf("name to set not specified")
+				}
+				name := strings.Join(line[3:], " ")
+				r.setProfileName(name)
 			default:
 				return fmt.Errorf("Cannot update %s in profile", line[2])
 			}

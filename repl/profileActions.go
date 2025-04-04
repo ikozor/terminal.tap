@@ -13,3 +13,33 @@ func (r *repl) getProfile() {
 
 	}
 }
+
+func (r *repl) setProfileEmail(email string) {
+	r.args = email
+	r.currentCommand = func(i interface{}) (string, error) {
+		str, ok := i.(string)
+		if !ok {
+			return "", fmt.Errorf("email not string: %v", i)
+		}
+
+		if err := r.commandExecutor.SetProfileEmail(str); err != nil {
+			return "", err
+		}
+		return "Successfully set email", nil
+	}
+}
+
+func (r *repl) setProfileName(name string) {
+	r.args = name
+	r.currentCommand = func(i interface{}) (string, error) {
+		str, ok := i.(string)
+		if !ok {
+			return "", fmt.Errorf("name not string: %v", i)
+		}
+
+		if err := r.commandExecutor.SetProfileName(str); err != nil {
+			return "", err
+		}
+		return "Successfully set name", nil
+	}
+}

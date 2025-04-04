@@ -180,3 +180,23 @@ result: ```-. .- -- . ---... / -... .. .-.. .-.. -.-- / -... --- -... --..-- / .
 
 plaintext result: ```NAME: BILLY BOB, EMAIL: BILLY@GMAIL.COM```
 
+### PROFILE UPDATE NAME <PROFILE_NAME>
+Update the users name 
+
+**Example** PROFILE UPDATE NAME JOHN DOE
+
+command: ```.--. .-. --- ..-. .. .-.. . / ..- .--. -.. .- - . / -. .- -- . / .--- --- .... -. / -.. --- .
+
+result: ```... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / ... . - / -. .- -- .```
+
+plaintext result: ```SUCCESSFULLY SET NAME```
+
+### PROFILE UPDATE EMAIL <PROFILE_EMAIL>
+
+**Example** PROFILE UPDATE EMAIL JOHNDOE@GMAIL.COM
+
+command: ```.--. .-. --- ..-. .. .-.. . / ..- .--. -.. .- - . / . -- .- .. .-.. / .--- --- .... -. -.. --- . .--.-. --. -- .- .. .-.. .-.-.- -.-. --- --```
+
+result: ```... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / ... . - / . -- .- .. .-..```
+
+plaintext result: ```SUCCESSFULLY SET EMAIL```

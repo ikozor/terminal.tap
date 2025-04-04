@@ -54,6 +54,7 @@ var toMorse = map[string]rune{
 	"-....-": '-',
 	"-..-.":  '/',
 	"-...-":  '=',
+	".--.-.": '@',
 	"/":      ' ',
 
 	//custom types i needed to work with terminal.shop
@@ -65,7 +66,6 @@ var toMorse = map[string]rune{
 	"-.....-": '(',
 	".-----.": ')',
 	".......": '`',
-	"......-": '@',
 	".....--": '#',
 	"....---": '$',
 	"...----": '%',
