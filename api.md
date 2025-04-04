@@ -200,3 +200,16 @@ command: ```.--. .-. --- ..-. .. .-.. . / ..- .--. -.. .- - . / . -- .- .. .-.. 
 result: ```... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / ... . - / . -- .- .. .-..```
 
 plaintext result: ```SUCCESSFULLY SET EMAIL```
+
+## Order Actions
+
+### ORDER LIST
+Get the list of the users orders
+
+**Example**
+
+command: ```--- .-. -.. . .-. / .-.. .. ... -```
+
+result: ```-.....- .. -.. ---... / ----- --..-- / .- -- --- ..- -. - ---... / ..--- ..--- ----- ----- .-----.```
+
+plaintext result: ```(ID: 0, AMOUNT: 2200)```

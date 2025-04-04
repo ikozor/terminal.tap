@@ -220,6 +220,18 @@ func (r *repl) Evaluate() error {
 		default:
 			return fmt.Errorf("Profile action not found: %s", line[1])
 		}
+	case "ORDER":
+		if len(line) < 2 {
+			return fmt.Errorf("No order action specified")
+		}
+		switch line[1] {
+		case "LIST":
+			r.listOrders()
+		case "GET":
+		default:
+			return fmt.Errorf("Order action not found: %s", line[1])
+
+		}
 	default:
 		return fmt.Errorf("Command not found: %s", command)
 
