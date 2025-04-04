@@ -78,6 +78,8 @@ var toMorse = map[string]rune{
 	"---....": '\\',
 	"--.....": '|',
 	"-......": '_',
+	".-.-.-.": '<',
+	"-.-.-.-": '>',
 }
 
 func reverseMap() map[rune]string {
