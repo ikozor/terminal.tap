@@ -38,3 +38,17 @@ func (r *repl) addCard() {
 		return fmt.Sprintf("Go to %s to add the card", url), nil
 	}
 }
+
+func (r *repl) removeCard(last4 string) {
+	r.args = last4
+	r.currentCommand = func(i interface{}) (string, error) {
+		str, ok := i.(string)
+		if !ok {
+			return "", fmt.Errorf("Invalid arg for last4: %v", i)
+		}
+		if err := r.commandExecutor.RemoveCard(str); err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("Card %s successfully removed", last4), nil
+	}
+}

@@ -173,6 +173,10 @@ func (r *repl) Evaluate() error {
 		case "ADD":
 			r.addCard()
 		case "REMOVE":
+			if len(line) < 3 {
+				return fmt.Errorf("No card specified to remove")
+			}
+			r.removeCard(line[2])
 		case "SET":
 		default:
 			return fmt.Errorf("Card action not found: %s", line[1])
