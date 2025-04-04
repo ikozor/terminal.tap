@@ -168,6 +168,10 @@ func (r *repl) Evaluate() error {
 			}
 			r.removeCard(line[2])
 		case "SET":
+			if len(line) < 3 {
+				return fmt.Errorf("No card specified to set")
+			}
+			r.setCard(line[2])
 		default:
 			return fmt.Errorf("Card action not found: %s", line[1])
 		}

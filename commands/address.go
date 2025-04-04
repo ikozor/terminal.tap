@@ -36,6 +36,9 @@ func (c *CommandExecutor) RemoveAddress(name string) error {
 			if err != nil {
 				return getApiErrorMessage(err)
 			}
+			if c.currentAddress == e.ID {
+				c.currentAddress = ""
+			}
 		}
 	}
 	return nil

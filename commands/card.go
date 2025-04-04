@@ -34,9 +34,27 @@ func (c *CommandExecutor) RemoveCard(last4 string) error {
 			if err != nil {
 				return getApiErrorMessage(err)
 			}
+			if c.currentCard == e.ID {
+				c.currentCard = ""
+			}
 			return nil
 		}
 	}
 
 	return fmt.Errorf("Card with last4 %s not found", last4)
+}
+
+func (c *CommandExecutor) SetCard(last4 string) error {
+	cards, err := c.ListCards()
+	if err != nil {
+		return err
+	}
+	for _, e := range cards {
+		if e.Last4 == last4 {
+			c.currentCard = e.ID
+			return nil
+		}
+	}
+	return fmt.Errorf("Card with last4 %s not found", last4)
+
 }
