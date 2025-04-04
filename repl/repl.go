@@ -228,6 +228,14 @@ func (r *repl) Evaluate() error {
 		case "LIST":
 			r.listOrders()
 		case "GET":
+			if len(line) < 3 {
+				return fmt.Errorf("No order id specified")
+			}
+			id, err := strconv.Atoi(line[2])
+			if err != nil {
+				return fmt.Errorf("Cannot convert id to int: %s", line[2])
+			}
+			r.getOrder(id)
 		default:
 			return fmt.Errorf("Order action not found: %s", line[1])
 

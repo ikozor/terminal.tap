@@ -23,3 +23,50 @@ func (r *repl) listOrders() {
 		return str[:len(str)-2], nil
 	}
 }
+
+func (r *repl) getOrder(id int) {
+	r.args = id
+	r.currentCommand = func(i interface{}) (string, error) {
+		order, err := r.commandExecutor.GetOrder(id)
+		if err != nil {
+			return "", err
+		}
+		str := fmt.Sprintf("Shipping: %s, amount: [subtotal: %.2f USD, shipping: %.2f USD], tracking: [Service: %s, number: %s], ",
+			order.Shipping.Name,
+			float32(order.Amount.Subtotal)/100,
+			float32(order.Amount.Shipping)/100,
+			order.Tracking.Service,
+			order.Tracking.Number,
+		)
+
+		products, err := r.commandExecutor.ListProductNames()
+		if err != nil {
+			return "", err
+		}
+
+		items := "items: ["
+		if len(order.Items) < 1 {
+			items += ")"
+		} else {
+			for _, item := range order.Items {
+				for _, product := range products {
+					for _, variant := range product.Variants {
+						if item.ProductVariantID == variant.ID {
+							items += fmt.Sprintf("(Name: %s, Quantity: %d, Price: %.2f USD, Variant: %s), ",
+								product.Name,
+								item.Quantity,
+								float32(item.Amount)/100,
+								variant.Name,
+							)
+						}
+					}
+				}
+			}
+			items = items[:len(items)-2] + "]"
+		}
+		str += items + "]"
+
+		return str, nil
+
+	}
+}

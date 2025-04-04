@@ -8,17 +8,13 @@ import (
 	"github.com/terminaldotshop/terminal-sdk-go"
 )
 
-func (c *CommandExecutor) ListProductNames() ([]string, error) {
+func (c *CommandExecutor) ListProductNames() ([]terminal.Product, error) {
 	products, err := c.client.Product.List(context.TODO())
 	if err != nil {
 		return nil, getApiErrorMessage(err)
 	}
 	c.currentProducts = products.Data
-	productNames := []string{}
-	for _, product := range products.Data {
-		productNames = append(productNames, product.Name)
-	}
-	return productNames, nil
+	return products.Data, nil
 }
 
 func (c *CommandExecutor) GetProductInfo(productName string) (terminal.Product, error) {

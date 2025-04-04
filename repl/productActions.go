@@ -14,7 +14,7 @@ func (r *repl) listProducts() {
 
 		productsString := ""
 		for _, e := range products {
-			productsString += e + ", "
+			productsString += e.Name + ", "
 		}
 		return productsString[:len(productsString)-2], nil
 
