@@ -166,3 +166,17 @@ command: ```-.-. .- .-. -.. / ... . - / ....- ..--- ....- ..---```
 result: ```-.-. .- .-. -.. / ....- ..--- ....- ..--- / ... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / ... . -```
 
 plaintext result: ```CARD 4242 SUCCESSFULLY SET```
+
+## Profile Actions
+
+### PROFILE GET 
+Get the current users Profile
+
+**Example**
+
+command: ```.--. .-. --- ..-. .. .-.. . / --. . -```
+
+result: ```-. .- -- . ---... / -... .. .-.. .-.. -.-- / -... --- -... --..-- / . -- .- .. .-.. ---... / -... .. .-.. .-.. -.-- ......- --. -- .- .. .-.. .-.-.- -.-. --- --```
+
+plaintext result: ```NAME: BILLY BOB, EMAIL: BILLY@GMAIL.COM```
+

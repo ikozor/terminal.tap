@@ -57,7 +57,7 @@ func (r *repl) Evaluate() error {
 			r.listProducts()
 		case "GET":
 			if len(line) < 3 {
-				return fmt.Errorf("Product to get not passed")
+				return fmt.Errorf("Product to get not specified")
 			}
 			productName := ""
 			for _, e := range line[2:] {
@@ -67,12 +67,12 @@ func (r *repl) Evaluate() error {
 			r.getProduct()
 
 		default:
-			return fmt.Errorf("Cannot Get: %s", line[1])
+			return fmt.Errorf("Product action not found: %s", line[1])
 
 		}
 	case "CART":
 		if len(line) < 2 {
-			return fmt.Errorf("No cart action provided")
+			return fmt.Errorf("cart action not specified")
 		}
 		switch line[1] {
 		case "GET":
@@ -190,6 +190,26 @@ func (r *repl) Evaluate() error {
 			r.setCard(line[2])
 		default:
 			return fmt.Errorf("Card action not found: %s", line[1])
+		}
+	case "PROFILE":
+		if len(line) < 2 {
+			return fmt.Errorf("No profile action specified")
+		}
+		switch line[1] {
+		case "GET":
+			r.getProfile()
+		case "UPDATE":
+			if len(line) < 3 {
+				return fmt.Errorf("what to update specified")
+			}
+			switch line[2] {
+			case "EMAIL":
+			case "NAME":
+			default:
+				return fmt.Errorf("Cannot update %s in profile", line[2])
+			}
+		default:
+			return fmt.Errorf("Profile action not found: %s", line[1])
 		}
 	default:
 		return fmt.Errorf("Command not found: %s", command)
