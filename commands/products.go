@@ -8,6 +8,11 @@ import (
 	"github.com/terminaldotshop/terminal-sdk-go"
 )
 
+type product struct {
+	Product terminal.Product
+	Variant terminal.ProductVariant
+}
+
 func (c *CommandExecutor) ListProductNames() ([]terminal.Product, error) {
 	products, err := c.client.Product.List(context.TODO())
 	if err != nil {
@@ -80,4 +85,24 @@ func (c *CommandExecutor) populateCurrentProducts() error {
 	}
 	c.currentProducts = products.Data
 	return nil
+}
+
+func (c *CommandExecutor) FindProductByProductVariant(productVariantId string) (product, error) {
+	if c.currentProducts == nil {
+		if err := c.populateCurrentProducts(); err != nil {
+			return product{}, err
+		}
+	}
+	for _, p := range c.currentProducts {
+		for _, v := range p.Variants {
+			if productVariantId == v.ID {
+				return product{
+					Product: p,
+					Variant: v,
+				}, nil
+			}
+		}
+	}
+	return product{}, fmt.Errorf("No product found by variant")
+
 }

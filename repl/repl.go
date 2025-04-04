@@ -240,6 +240,21 @@ func (r *repl) Evaluate() error {
 			return fmt.Errorf("Order action not found: %s", line[1])
 
 		}
+
+	case "SUBSCRIBE":
+		if len(line) < 2 {
+			return fmt.Errorf("No subscribe actions specified")
+		}
+		switch line[1] {
+		case "LIST":
+			r.listSubscriptions()
+		case "GET":
+		case "ADD":
+		case "REMOVE":
+		default:
+			return fmt.Errorf("Subscribe action not found: %s", line[1])
+		}
+
 	default:
 		return fmt.Errorf("Command not found: %s", command)
 

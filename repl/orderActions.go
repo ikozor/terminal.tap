@@ -39,28 +39,22 @@ func (r *repl) getOrder(id int) {
 			order.Tracking.Number,
 		)
 
-		products, err := r.commandExecutor.ListProductNames()
-		if err != nil {
-			return "", err
-		}
-
 		items := "items: ["
 		if len(order.Items) < 1 {
 			items += ")"
 		} else {
 			for _, item := range order.Items {
-				for _, product := range products {
-					for _, variant := range product.Variants {
-						if item.ProductVariantID == variant.ID {
-							items += fmt.Sprintf("(Name: %s, Quantity: %d, Price: %.2f USD, Variant: %s), ",
-								product.Name,
-								item.Quantity,
-								float32(item.Amount)/100,
-								variant.Name,
-							)
-						}
-					}
+				product, err := r.commandExecutor.FindProductByProductVariant(item.ProductVariantID)
+				if err != nil {
+					return "", err
 				}
+
+				items += fmt.Sprintf("(Name: %s, Quantity: %d, Price: %.2f USD, Variant: %s), ",
+					product.Product.Name,
+					item.Quantity,
+					float32(item.Amount)/100,
+					product.Variant.Name,
+				)
 			}
 			items = items[:len(items)-2] + "]"
 		}
