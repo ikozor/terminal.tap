@@ -13,3 +13,11 @@ func (c *CommandExecutor) ListCards() ([]terminal.Card, error) {
 	}
 	return res.Data, nil
 }
+
+func (c *CommandExecutor) AddCard() (string, error) {
+	res, err := c.client.Card.Collect(context.TODO())
+	if err != nil {
+		return "", getApiErrorMessage(err)
+	}
+	return res.Data.URL, nil
+}

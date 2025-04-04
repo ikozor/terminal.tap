@@ -38,6 +38,8 @@ func (r *repl) Read() error {
 }
 
 func (r *repl) Evaluate() error {
+	r.args = nil
+	r.currentCommand = func(i interface{}) (string, error) { return "", nil }
 	line := strings.Split(r.line, " ")
 	if len(line) < 1 || line[0] == "" {
 		// nothing happened
@@ -58,8 +60,6 @@ func (r *repl) Evaluate() error {
 		case "CARDS":
 			r.listCards()
 		default:
-			r.args = nil
-			r.currentCommand = nil
 			return fmt.Errorf("Cannot list: %s", line[1])
 		}
 
@@ -83,8 +83,6 @@ func (r *repl) Evaluate() error {
 			r.getProduct()
 
 		default:
-			r.args = nil
-			r.currentCommand = nil
 			return fmt.Errorf("Cannot Get: %s", line[1])
 
 		}
@@ -133,8 +131,6 @@ func (r *repl) Evaluate() error {
 			}
 			r.removeFromCart(line[2], quantity)
 		default:
-			r.args = nil
-			r.currentCommand = nil
 			return fmt.Errorf("Cart action not found: %s", line[1])
 
 		}
@@ -167,14 +163,21 @@ func (r *repl) Evaluate() error {
 			r.setAddress(line[2])
 
 		default:
-			r.args = nil
-			r.currentCommand = nil
 			return fmt.Errorf("Address action not found: %s", line[1])
 		}
 	case "CARD":
+		if len(line) < 2 {
+			return fmt.Errorf("No card action specified")
+		}
+		switch line[1] {
+		case "ADD":
+			r.addCard()
+		case "REMOVE":
+		case "SET":
+		default:
+			return fmt.Errorf("Card action not found: %s", line[1])
+		}
 	default:
-		r.args = nil
-		r.currentCommand = nil
 		return fmt.Errorf("Command not found: %s", command)
 
 	}

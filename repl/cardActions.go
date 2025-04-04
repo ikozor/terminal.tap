@@ -27,3 +27,14 @@ func (r *repl) listCards() {
 		return cardsList[:len(cardsList)-2], nil
 	}
 }
+
+func (r *repl) addCard() {
+	r.args = nil
+	r.currentCommand = func(i interface{}) (string, error) {
+		url, err := r.commandExecutor.AddCard()
+		if err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("Go to %s to add the card", url), nil
+	}
+}

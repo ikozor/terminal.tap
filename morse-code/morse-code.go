@@ -101,6 +101,10 @@ func ReadStringIntoMorse(msg string) (string, error) {
 	msg = strings.ToUpper(msg)
 	converter := reverseMap()
 
+	if len(msg) < 1 {
+		return "", nil
+	}
+
 	morseCode := ""
 	for _, e := range msg {
 		code, ok := converter[e]

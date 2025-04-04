@@ -15,7 +15,8 @@ func main() {
 		if err := r.Read(); err != nil {
 			morse, morseErr := morsecode.ReadStringIntoMorse(err.Error())
 			if morseErr != nil {
-				panic(morseErr)
+				// print invalid morse code character found
+				fmt.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
 			}
 			fmt.Println(morse)
 
@@ -28,7 +29,8 @@ func main() {
 		if err := r.Evaluate(); err != nil {
 			morse, morseErr := morsecode.ReadStringIntoMorse(err.Error())
 			if morseErr != nil {
-				panic(morseErr)
+				// print invalid morse code character found
+				fmt.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
 			}
 			fmt.Println(morse)
 
@@ -41,7 +43,8 @@ func main() {
 		if err != nil {
 			morse, morseErr := morsecode.ReadStringIntoMorse(err.Error())
 			if morseErr != nil {
-				panic(morseErr)
+				// print invalid morse code character found
+				fmt.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
 			}
 			fmt.Println(morse)
 
@@ -52,7 +55,8 @@ func main() {
 		}
 		morse, morseErr := morsecode.ReadStringIntoMorse(res)
 		if morseErr != nil {
-			panic(morseErr)
+			// print invalid morse code character found
+			fmt.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
 		}
 		fmt.Println(morse)
 		text, err := morsecode.ReadMorseIntoString(morse)
