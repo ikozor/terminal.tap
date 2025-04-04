@@ -1,70 +1,43 @@
 # terminal.tap api
 ### Morse code commands to use in the application
 
-## List Actions
+## Product Actions
 
-### LIST PRODUCTS
-List all the products available to buy at terminal.shop
+### PRODUCT LIST
+List all available products
 
-**Example:**
+**Example**
 
-command: ```.-.. .. ... - / .--. .-. --- -.. ..- -.-. - ...```
+command: ```.--. .-. --- -.. ..- -.-. - / .-.. .. ... -```
 
 result: ```-.-. .-. --- -. --..-- / ..-. .-.. --- .-- --..-- / .- .-. - .. ... .- -. --..-- / .--..-- --- -... .--- . -.-. - / --- -... .--- . -.-. - --..--. --..-- / ... . --. ..-. .- ..- .-.. - --..-- / -.. .- .-. -.- / -- --- -.. . --..-- / ....- ----- ....-```
 
-plaintext result: ``` CRON, FLOW, ARTISAN, [OBJECT OBJECT], SEGFAULT, DARK MODE, 404 ```  
+plaintext result: ```CRON, FLOW, ARTISAN, [OBJECT OBJECT], SEGFAULT, DARK MODE, 404```
 
-### LIST ADDRESSES
-List the addresses the user has saved
-
-**Example:**
-> Assuming the user has home and work addresses saved
-
-command: ```.-.. .. ... - / .- -.. -.. .-. . ... ... . ...```
-
-result: ```-.....- -. .- -- . ---... / .... --- -- . --..-- / ... - .-. . . - / .---- ---... / / .---- ..--- ...-- / .- -... -.-. / ... - --..-- / -.-. .. - -.-- ---... / / -.-. .. - -.-- --..-- / ... - .- - . ---... / ... - --..-- / --.. .. .--. -.-. --- -.. . ---... / .---- ..--- ...-- ....- ..... --..-- / -.-. --- ..- -. - .-. -.-- ---... / ..- ... --..-- / .--. .... --- -. . / -. ..- -- -... . .-. ---... / ....- ..--- ----- ..... ..... ..... -.... ----. -.... ----. .-----. --..-- / -.....- -. .- -- . ---... / .-- --- .-. -.- --..-- / ... - .-. . . - / .---- ---... / / ....- ..... -.... / .... . .-.. .-.. --- / .-.. -. --..-- / ... - .-. . . - / ..--- ---... / / ... . -.-. --- -. -.. / .--. .- .-. - --..-- / -.-. .. - -.-- ---... / / -.-. .. - -.-- --..-- / ... - .- - . ---... / ... - --..-- / --.. .. .--. -.-. --- -.. . ---... / .---- ..--- ...-- ....- ..... --..-- / -.-. --- ..- -. - .-. -.-- ---... / ..- ... --..-- / .--. .... --- -. . / -. ..- -- -... . .-. ---... / ....- ..--- ----- ..... ..... ..... -.... ----. -.... ----. .-----.```
-
-plaintext result: ```(NAME: HOME, STREET 1:  123 ABC ST, CITY:  CITY, STATE: ST, ZIPCODE: 12345, COUNTRY: US, PHONE NUMBER: 4205556969), (NAME: WORK, STREET 1:  456 HELLO LN, STREET 2:  SECOND PART, CITY:  CITY, STATE: ST, ZIPCODE: 12345, COUNTRY: US, PHONE NUMBER: 4205556969)```
-
-### LIST CARDS
-List the cards the user has saved
-
-**Example:**
-> assuming the user has the stripe testing card 
-
-command: ```.-.. .. ... - / -.-. .- .-. -.. ...```
-
-result: ```-.....- ...- .. ... .- --..-- / .-.. .- ... - / ....- ---... / ....- ..--- ....- ..--- --..-- / . -..- .--. ---... / ...-- -..-. ..--- ----- ...-- ----- .-----.```
-
-plaintext result: ```(VISA, LAST 4: 4242, EXP: 3/2030)```
-
-## Get Actions
-
-### GET PRODUCT <PRODUCT_NAME>
+### PRODUCT GET <PRODUCT_NAME>
 Get specific information about a product
 
-**Example:** GET PRODUCT SEGFAULT
+**Example:** PRODUCT GET SEGFAULT
 
-command: ```--. . - / .--. .-. --- -.. ..- -.-. - / ... . --. ..-. .- ..- .-.. -```
+command: ```.--. .-. --- -.. ..- -.-. - / --. . - / ... . --. ..-. .- ..- .-.. -```
 
-result: ```--. . - / .--. .-. --- -.. ..- -.-. - / ... . --. ..-. .- ..- .-.. -
--. .- -- . ---... / ... . --. ..-. .- ..- .-.. - --..-- / - -.-- .--. . ---... / -- . -.. .. ..- -- / .-. --- .- ... - / -..--. / .---- ..--- --- --.. / -..--. / .-- .... --- .-.. . / -... . .- -. ... --..-- / .--. .-. .. -.-. . ---... / ..--- ..--- .-.-.- ----- ----- / ..- ... -.. --..-- / -.. . ... -.-. .-. .. .--. - .. --- -. ---... / .- / ... .- ...- --- .-. -.-- / -.-- . - / ... .-- . . - / -... .-.. . -. -.. / -.-. .-. . .- - . -.. / ..-. .-. --- -- / .- / -. .- - ..- .-. .- .-.. / ..-. .- ..- .-.. - / .. -. / - .... . / -.-. --- ..-. ..-. . . / -.-. .... . .-. .-. -.-- / - .... .- - / -.-. .- ..- ... . ... / .. - / - --- / -.. . ...- . .-.. --- .--. / --- -. . / -... . .- -. / .. -. ... - . .- -.. / --- ..-. / - .-- --- .-.-.-```
+result: ```-. .- -- . ---... / ... . --. ..-. .- ..- .-.. - --..-- / - -.-- .--. . ---... / -- . -.. .. ..- -- / .-. --- .- ... - / -..--. / .---- ..--- --- --.. / -..--. / .-- .... --- .-.. . / -... . .- -. ... --..-- / .--. .-. .. -.-. . ---... / ..--- ..--- .-.-.- ----- ----- / ..- ... -.. --..-- / -.. . ... -.-. .-. .. .--. - .. --- -. ---... / .- / ... .- ...- --- .-. -.-- / -.-- . - / ... .-- . . - / -... .-.. . -. -.. / -.-. .-. . .- - . -.. / ..-. .-. --- -- / .- / -. .- - ..- .-. .- .-.. / ..-. .- ..- .-.. - / .. -. / - .... . / -.-. --- ..-. ..-. . . / -.-. .... . .-. .-. -.-- / - .... .- - / -.-. .- ..- ... . ... / .. - / - --- / -.. . ...- . .-.. --- .--. / --- -. . / -... . .- -. / .. -. ... - . .- -.. / --- ..-. / - .-- --- .-.-.-```
 
 plaintext result: ```NAME: SEGFAULT, TYPE: MEDIUM ROAST | 12OZ | WHOLE BEANS, PRICE: 22.00 USD, DESCRIPTION: A SAVORY YET SWEET BLEND CREATED FROM A NATURAL FAULT IN THE COFFEE CHERRY THAT CAUSES IT TO DEVELOP ONE BEAN INSTEAD OF TWO.```
 
-### GET CART
-gets the users current cart
+## Cart Actions
 
-**Example:** 
+### CART GET 
+Gets the users current cart
+
+**Example**
 > assuming the user has 1 segfault and 1 404 in cart
 
-command: ```--. . - / -.-. .- .-. -```
+command: ```-.-. .- .-. - / --. . -```
 
 result: ```.....- -. .- -- . ---... / ... . --. ..-. .- ..- .-.. - --..-- / .--. .-. .. -.-. . ---... / ..--- ..--- .-.-.- ----- ----- / ..- ... -.. --..-- / --.- ..- .- -. - .. - -.-- ---... / .---- .-----. --..-- / -.....- -. .- -- . ---... / ....- ----- ....- --..-- / .--. .-. .. -.-. . ---... / ..--- ..--- .-.-.- ----- ----- / ..- ... -.. --..-- / --.- ..- .- -. - .. - -.-- ---... / .---- .-----. / - --- - .- .-.. ---... / ....- ....- .-.-.- ----- ----- / ..- ... -..```
 
 plaintext result: ```(NAME: SEGFAULT, PRICE: 22.00 USD, QUANTITY: 1), (NAME: 404, PRICE: 22.00 USD, QUANTITY: 1) TOTAL: 44.00 USD```
-
-## Cart Actions
 
 ### CART ADD <PRODUCT_NAME> <optional: QUANTITY>
 Add product to the cart, can specify quantity, if quantity not specified, is defaulted to 1
@@ -89,6 +62,18 @@ result: ```... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / .-. . -- --- ..
 plaintext result: ```SUCCESSFULLY REMOVED ITEM FROM CART```
 
 ## Address Actions
+
+### ADDRESS LIST
+List the addresses the user has saved
+
+**Example:**
+> Assuming the user has home and work addresses saved
+
+command: ```.- -.. -.. .-. . ... ... / .-.. .. ... -```
+
+result: ```-.....- -. .- -- . ---... / .... --- -- . --..-- / ... - .-. . . - / .---- ---... / / .---- ..--- ...-- / .- -... -.-. / ... - --..-- / -.-. .. - -.-- ---... / / -.-. .. - -.-- --..-- / ... - .- - . ---... / ... - --..-- / --.. .. .--. -.-. --- -.. . ---... / .---- ..--- ...-- ....- ..... --..-- / -.-. --- ..- -. - .-. -.-- ---... / ..- ... --..-- / .--. .... --- -. . / -. ..- -- -... . .-. ---... / ....- ..--- ----- ..... ..... ..... -.... ----. -.... ----. .-----. --..-- / -.....- -. .- -- . ---... / .-- --- .-. -.- --..-- / ... - .-. . . - / .---- ---... / / ....- ..... -.... / .... . .-.. .-.. --- / .-.. -. --..-- / ... - .-. . . - / ..--- ---... / / ... . -.-. --- -. -.. / .--. .- .-. - --..-- / -.-. .. - -.-- ---... / / -.-. .. - -.-- --..-- / ... - .- - . ---... / ... - --..-- / --.. .. .--. -.-. --- -.. . ---... / .---- ..--- ...-- ....- ..... --..-- / -.-. --- ..- -. - .-. -.-- ---... / ..- ... --..-- / .--. .... --- -. . / -. ..- -- -... . .-. ---... / ....- ..--- ----- ..... ..... ..... -.... ----. -.... ----. .-----.```
+
+plaintext result: ```(NAME: HOME, STREET 1:  123 ABC ST, CITY:  CITY, STATE: ST, ZIPCODE: 12345, COUNTRY: US, PHONE NUMBER: 4205556969), (NAME: WORK, STREET 1:  456 HELLO LN, STREET 2:  SECOND PART, CITY:  CITY, STATE: ST, ZIPCODE: 12345, COUNTRY: US, PHONE NUMBER: 4205556969)```
 
 ### ADDRESS ADD <ADDRESS_NAME>, <ADDRESS_STREET1>, <optional: ADDRESS_STREET2>, <ADDRESS_CITY>, <ADDRESS_STATE>, <ADDRESS_ZIPCODE>, <ADDRESS_COUNTRY>, <ADDRESS_PHONE_NUMBER>
 Add new address with each part seperated by a comma (,)
@@ -124,6 +109,18 @@ result: ```.- -.. -.. . ... ... / .-- --- .-. -.- / ... . - / ... ..- -.-. -.-. 
 plaintext result: ```ADDRESS WORK SET SUCCESSFULLY```
 
 ## Card Actions
+
+### CARD LIST
+List the cards the user has saved
+
+**Example:**
+> assuming the user has the stripe testing card 
+
+command: ```-.-. .- .-. -.. / .-.. .. ... -```
+
+result: ```-.....- ...- .. ... .- --..-- / .-.. .- ... - / ....- ---... / ....- ..--- ....- ..--- --..-- / . -..- .--. ---... / ...-- -..-. ..--- ----- ...-- ----- .-----.```
+
+plaintext result: ```(VISA, LAST 4: 4242, EXP: 3/2030)```
 
 ### CARD ADD 
 Get a link to add a new card 

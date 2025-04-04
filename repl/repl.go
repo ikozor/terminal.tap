@@ -48,30 +48,14 @@ func (r *repl) Evaluate() error {
 
 	command := line[0]
 	switch command {
-	case "LIST":
+	case "PRODUCT":
 		if len(line) < 2 {
-			return fmt.Errorf("What to list unknown")
+			return fmt.Errorf("product action not specified")
 		}
 		switch line[1] {
-		case "PRODUCTS":
+		case "LIST":
 			r.listProducts()
-		case "ADDRESSES":
-			r.listAddresses()
-		case "CARDS":
-			r.listCards()
-		default:
-			return fmt.Errorf("Cannot list: %s", line[1])
-		}
-
-	case "GET":
-		if len(line) < 2 {
-			return fmt.Errorf("what to get not passed")
-		}
-		switch line[1] {
-		case "CART":
-			r.getCart()
-
-		case "PRODUCT":
+		case "GET":
 			if len(line) < 3 {
 				return fmt.Errorf("Product to get not passed")
 			}
@@ -91,6 +75,8 @@ func (r *repl) Evaluate() error {
 			return fmt.Errorf("No cart action provided")
 		}
 		switch line[1] {
+		case "GET":
+			r.getCart()
 		case "ADD":
 			if len(line) < 3 {
 				return fmt.Errorf("Nothing to add to cart")
@@ -140,6 +126,8 @@ func (r *repl) Evaluate() error {
 			return fmt.Errorf("No address action specified")
 		}
 		switch line[1] {
+		case "LIST":
+			r.listAddresses()
 		case "ADD":
 			if len(line) < 3 {
 				return fmt.Errorf("No address specified to add")
@@ -170,6 +158,8 @@ func (r *repl) Evaluate() error {
 			return fmt.Errorf("No card action specified")
 		}
 		switch line[1] {
+		case "LIST":
+			r.listCards()
 		case "ADD":
 			r.addCard()
 		case "REMOVE":
