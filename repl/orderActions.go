@@ -27,6 +27,10 @@ func (r *repl) listOrders() {
 func (r *repl) getOrder(id int) {
 	r.args = id
 	r.currentCommand = func(i interface{}) (string, error) {
+		id, ok := i.(int)
+		if !ok {
+			return "", fmt.Errorf("Id invalid format: %v", i)
+		}
 		order, err := r.commandExecutor.GetOrder(id)
 		if err != nil {
 			return "", err
@@ -44,7 +48,7 @@ func (r *repl) getOrder(id int) {
 			items += ")"
 		} else {
 			for _, item := range order.Items {
-				product, err := r.commandExecutor.FindProductByProductVariant(item.ProductVariantID)
+				product, err := r.commandExecutor.FindProductByTerminalProductVariantId(item.ProductVariantID)
 				if err != nil {
 					return "", err
 				}

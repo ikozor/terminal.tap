@@ -87,7 +87,7 @@ func (c *CommandExecutor) populateCurrentProducts() error {
 	return nil
 }
 
-func (c *CommandExecutor) FindProductByProductVariant(productVariantId string) (product, error) {
+func (c *CommandExecutor) FindProductByTerminalProductVariantId(productVariantId string) (product, error) {
 	if c.currentProducts == nil {
 		if err := c.populateCurrentProducts(); err != nil {
 			return product{}, err

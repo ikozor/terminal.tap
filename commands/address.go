@@ -57,3 +57,11 @@ func (c *CommandExecutor) SetAddress(name string) error {
 	}
 	return fmt.Errorf("Address not found with name: %s", name)
 }
+
+func (c *CommandExecutor) GetAddressByTerminalId(addressId string) (terminal.Address, error) {
+	res, err := c.client.Address.Get(context.TODO(), addressId)
+	if err != nil {
+		return terminal.Address{}, getApiErrorMessage(err)
+	}
+	return res.Data, nil
+}

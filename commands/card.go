@@ -58,3 +58,12 @@ func (c *CommandExecutor) SetCard(last4 string) error {
 	return fmt.Errorf("Card with last4 %s not found", last4)
 
 }
+
+func (c *CommandExecutor) GetCardByTerminalId(cardId string) (terminal.Card, error) {
+	res, err := c.client.Card.Get(context.TODO(), cardId)
+	if err != nil {
+		return terminal.Card{}, getApiErrorMessage(err)
+	}
+	return res.Data, nil
+
+}

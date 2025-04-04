@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-
 	r := repl.NewRepl()
 	fmt.Print("\033[H\033[2J")
 	for {

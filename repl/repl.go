@@ -249,6 +249,14 @@ func (r *repl) Evaluate() error {
 		case "LIST":
 			r.listSubscriptions()
 		case "GET":
+			if len(line) < 3 {
+				return fmt.Errorf("No subscription id specified")
+			}
+			id, err := strconv.Atoi(line[2])
+			if err != nil {
+				return fmt.Errorf("Cannot convert id to int: %s", line[2])
+			}
+			r.getSubscription(id)
 		case "ADD":
 		case "REMOVE":
 		default:

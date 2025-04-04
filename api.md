@@ -137,7 +137,7 @@ plaintext result: ```(VISA, LAST 4: 4242, EXP: 3/2030)```
 ### CARD ADD 
 Get a link to add a new card 
 
-**Example**
+**Example:**
 
 command: ```-.-. .- .-. -.. / .- -.. -..```
 
@@ -148,7 +148,7 @@ plaintext result: ```GO TO HTTPS://DEV.TRM.SH/00000000 TO ADD THE CARD```
 ### CARD REMOVE <CARD_LAST_4>
 Remove card based on last 4 digits
 
-**Example** CARD REMOVE 4242 
+**Example:** CARD REMOVE 4242 
 
 command: ```-.-. .- .-. -.. / .-. . -- --- ...- . / ....- ..--- ....- ..---```
 
@@ -159,7 +159,7 @@ plaintext result: ```CARD 4242 SUCCESSFULLY REMOVED```
 ### CARD SET <CARD_LAST_4>
 Set card based on last 4 digits
 
-**Example** CARD SET 4242 
+**Example:** CARD SET 4242 
 
 command: ```-.-. .- .-. -.. / ... . - / ....- ..--- ....- ..---```
 
@@ -172,7 +172,7 @@ plaintext result: ```CARD 4242 SUCCESSFULLY SET```
 ### PROFILE GET 
 Get the current users Profile
 
-**Example**
+**Example:**
 
 command: ```.--. .-. --- ..-. .. .-.. . / --. . -```
 
@@ -183,7 +183,7 @@ plaintext result: ```NAME: BILLY BOB, EMAIL: BILLY@GMAIL.COM```
 ### PROFILE UPDATE NAME <PROFILE_NAME>
 Update the users name 
 
-**Example** PROFILE UPDATE NAME JOHN DOE
+**Example:** PROFILE UPDATE NAME JOHN DOE
 
 command: ```.--. .-. --- ..-. .. .-.. . / ..- .--. -.. .- - . / -. .- -- . / .--- --- .... -. / -.. --- .
 
@@ -193,7 +193,7 @@ plaintext result: ```SUCCESSFULLY SET NAME```
 
 ### PROFILE UPDATE EMAIL <PROFILE_EMAIL>
 
-**Example** PROFILE UPDATE EMAIL JOHNDOE@GMAIL.COM
+**Example:** PROFILE UPDATE EMAIL JOHNDOE@GMAIL.COM
 
 command: ```.--. .-. --- ..-. .. .-.. . / ..- .--. -.. .- - . / . -- .- .. .-.. / .--- --- .... -. -.. --- . .--.-. --. -- .- .. .-.. .-.-.- -.-. --- --```
 
@@ -206,7 +206,7 @@ plaintext result: ```SUCCESSFULLY SET EMAIL```
 ### ORDER LIST
 Get the list of the users orders
 
-**Example**
+**Example:**
 
 command: ```--- .-. -.. . .-. / .-.. .. ... -```
 
@@ -217,11 +217,35 @@ plaintext result: ```(ID: 0, AMOUNT: 2200)```
 ### ORDER GET <ORDER_ID>
 Get details about the order by the id
 
-**Example** ORDER GET 0
+**Example:** ORDER GET 0
 
 command: ```--- .-. -.. . .-. / --. . - / -----```
 
 result: ```... .... .. .--. .--. .. -. --. ---... / .... --- -- . --..-- / .- -- --- ..- -. - ---... / .--..-- ... ..- -... - --- - .- .-.. ---... / ..--- ..--- .-.-.- ----- ----- / ..- ... -.. --..-- / ... .... .. .--. .--. .. -. --. ---... / ---.. .-.-.- ----- ----- / ..- ... -.. --..--. --..-- / - .-. .- -.-. -.- .. -. --. ---... / .--..-- ... . .-. ...- .. -.-. . ---... / --..-- / -. ..- -- -... . .-. ---... / ----. ..--- ----- ----- .---- ----. ----- ...-- ....- --... ----- .---- -.... --... ----- ----- ----- ----- ----- ----- ----- ----- ----- ----- .---- ---.. --..--. --..-- / .. - . -- ... ---... / .--..-- -.....- -. .- -- . ---... / .--..-- --- -... .--- . -.-. - / --- -... .--- . -.-. - --..--. --..-- / --.- ..- .- -. - .. - -.-- ---... / .---- --..-- / .--. .-. .. -.-. . ---... / ..--- ..--- .-.-.- ----- ----- / ..- ... -.. --..-- / ...- .- .-. .. .- -. - ---... / .-.. .. --. .... - / .-. --- .- ... - / -..--. / .---- ..--- --- --.. / -..--. / .-- .... --- .-.. . / -... . .- -. ... .-----. --..--. --..--.```
 
 plaintext result: ```SHIPPING: HOME, AMOUNT: [SUBTOTAL: 22.00 USD, SHIPPING: 8.00 USD], TRACKING: [SERVICE: , NUMBER: 92001903470167000000000018], ITEMS: [(NAME: [OBJECT OBJECT], QUANTITY: 1, PRICE: 22.00 USD, VARIANT: LIGHT ROAST | 12OZ | WHOLE BEANS)]]```
+
+## Subscribe Actions
+
+### SUBSCRIBE LIST
+List all the users subscriptions
+
+**Example:**
+
+command: ```... ..- -... ... -.-. .-. .. -... . / .-.. .. ... -```
+
+result: ```-.....- .. -.. ---... / ----- --..-- / ... -.-. .... . -.. ..- .-.. . ---... / .--..-- - -.-- .--. . ---... / .-- . . -.- .-.. -.-- --..-- / .. -. - . .-. ...- .- .-.. ---... / ...-- --..--. --..-- / .--. .-. --- -.. ..- -.-. - ---... / .--..-- -. .- -- . ---... / -.-. .-. --- -. --..-- / ...- .- .-. .. .- -. - ---... / .---- ..--- --- --.. --..-- / --.- ..- .- -. - .. - -.-- ---... / .---- --..--. --..-- / -. . -..- - ---... ----- ----- ----- ----- -....- ----- ----- -....- ----- ----- .-----.```
+
+plaintext result: ```(ID: 0, SCHEDULE: [TYPE: weekly, INTERVAL: 3], PRODUCT: [NAME: CRON, VARIANT: 12OZ, QUANTITY: 1], NEXT:0000-00-00)```
+
+### SUBSCRIBE GET <SUBSCRIPTION_ID>
+Get a subscription by the id
+
+**Example:** SUBSCRIBE GET 0
+
+command: ```... ..- -... ... -.-. .-. .. -... . / --. . - / -----```
+
+result: ```... -.-. .... . -.. ..- .-.. . ---... / .--..-- - -.-- .--. . ---... / .-- . . -.- .-.. -.-- / --..-- / .. -. - . .-. ...- .- .-.. ---... / ...-- --..--. --..-- / .--. .-. --- -.. ..- -.-. - ---... / .--..-- -. .- -- . ---... / -.-. .-. --- -. --..-- / ...- .- .-. .. .- -. - ---... / .---- ..--- --- --.. --..-- / --.- ..- .- -. - .. - -.-- ---... / .---- --..--. --..-- / -. . -..- - ---... / ----- ----- ----- ----- -....- ----- ----- -....- ----- ----- --..-- / .- -.. -.. .-. . ... ... / ---... / .--..-- -. .- -- . ---... / .... --- -- . --..-- / ... - .-. . . - / .---- ---... / / .---- ..--- ...-- / .- -... -.-. / ... - --..-- / -.-. .. - -.-- ---... / / -.-. .. - -.-- --..-- / ... - .- - . ---... / ... - --..-- / --.. .. .--. -.-. --- -.. . ---... / .---- ..--- ...-- ....- ..... --..-- / -.-. --- ..- -. - .-. -.-- ---... / ..- ... --..-- / .--. .... --- -. . / -. ..- -- -... . .-. ---... / ....- ..--- ----- ..... ..... ..... -.... ----. -.... ----. --..--. --..-- / -.-. .- .-. -.. ---... / .--..-- ...- .. ... .- --..-- / .-.. .- ... - / ....- ---... / ....- ..--- ....- ..--- --..-- / . -..- .--. ---... / .---- .---- -..-. ..--- ----- ..--- ----. --..--.```
+
+plaintext result: ```SCHEDULE: [TYPE: , INTERVAL: 0], PRODUCT: [NAME: CRON, VARIANT: 12OZ, QUANTITY: 1], NEXT: 0000-00-00, ADDRESS : [NAME: HOME, STREET 1:  123 ABC ST, CITY:  CITY, STATE: ST, ZIPCODE: 12345, COUNTRY: US, PHONE NUMBER: 4205556969], CARD: [VISA, LAST 4: 4242, EXP: 11/2029]```
 
