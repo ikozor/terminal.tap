@@ -3,9 +3,7 @@ package repl
 import "fmt"
 
 func (r *repl) listCards() {
-	r.args = nil
-
-	r.currentCommand = func(i interface{}) (string, error) {
+	r.currentCommand = func() (string, error) {
 		cards, err := r.commandExecutor.ListCards()
 		if err != nil {
 			return "", err
@@ -29,8 +27,7 @@ func (r *repl) listCards() {
 }
 
 func (r *repl) addCard() {
-	r.args = nil
-	r.currentCommand = func(i interface{}) (string, error) {
+	r.currentCommand = func() (string, error) {
 		url, err := r.commandExecutor.AddCard()
 		if err != nil {
 			return "", err
@@ -40,13 +37,8 @@ func (r *repl) addCard() {
 }
 
 func (r *repl) removeCard(last4 string) {
-	r.args = last4
-	r.currentCommand = func(i interface{}) (string, error) {
-		str, ok := i.(string)
-		if !ok {
-			return "", fmt.Errorf("Invalid arg for last4: %v", i)
-		}
-		if err := r.commandExecutor.RemoveCard(str); err != nil {
+	r.currentCommand = func() (string, error) {
+		if err := r.commandExecutor.RemoveCard(last4); err != nil {
 			return "", err
 		}
 		return fmt.Sprintf("Card %s successfully removed", last4), nil
@@ -54,13 +46,8 @@ func (r *repl) removeCard(last4 string) {
 }
 
 func (r *repl) setCard(last4 string) {
-	r.args = last4
-	r.currentCommand = func(i interface{}) (string, error) {
-		str, ok := i.(string)
-		if !ok {
-			return "", fmt.Errorf("Invalid arg for last4: %v", i)
-		}
-		if err := r.commandExecutor.SetCard(str); err != nil {
+	r.currentCommand = func() (string, error) {
+		if err := r.commandExecutor.SetCard(last4); err != nil {
 			return "", err
 		}
 		return fmt.Sprintf("Card %s successfully set", last4), nil

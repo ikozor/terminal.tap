@@ -7,8 +7,7 @@ import (
 )
 
 func (r *repl) listSubscriptions() {
-	r.args = nil
-	r.currentCommand = func(i interface{}) (string, error) {
+	r.currentCommand = func() (string, error) {
 		subscriptions, err := r.commandExecutor.ListSubscriptions()
 		if err != nil {
 			return "", err
@@ -42,12 +41,7 @@ func (r *repl) listSubscriptions() {
 }
 
 func (r *repl) getSubscription(id int) {
-	r.args = id
-	r.currentCommand = func(i interface{}) (string, error) {
-		id, ok := i.(int)
-		if !ok {
-			return "", fmt.Errorf("Id invalid format: %v", i)
-		}
+	r.currentCommand = func() (string, error) {
 		subscription, err := r.commandExecutor.GetSubscription(id)
 		if err != nil {
 			return "", err
@@ -95,14 +89,8 @@ func (r *repl) getSubscription(id int) {
 }
 
 func (r *repl) addSubscription(newSub commands.NewSubscription) {
-	r.args = newSub
-
-	r.currentCommand = func(i interface{}) (string, error) {
-		newSubscription, ok := i.(commands.NewSubscription)
-		if !ok {
-			return "", fmt.Errorf("Subscripton type invalid: %v", i)
-		}
-		if err := r.commandExecutor.AddSubscription(newSubscription); err != nil {
+	r.currentCommand = func() (string, error) {
+		if err := r.commandExecutor.AddSubscription(newSub); err != nil {
 			return "", err
 		}
 		return "Subscripton successfully added", nil
@@ -111,12 +99,7 @@ func (r *repl) addSubscription(newSub commands.NewSubscription) {
 }
 
 func (r *repl) removeSubscription(id int) {
-	r.args = id
-	r.currentCommand = func(i interface{}) (string, error) {
-		id, ok := i.(int)
-		if !ok {
-			return "", fmt.Errorf("id must be int: %v", i)
-		}
+	r.currentCommand = func() (string, error) {
 		if err := r.commandExecutor.RemoveSubscription(id); err != nil {
 			return "", err
 		}

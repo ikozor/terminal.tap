@@ -3,7 +3,7 @@ package repl
 import "fmt"
 
 func (r *repl) listProducts() {
-	r.currentCommand = func(i interface{}) (string, error) {
+	r.currentCommand = func() (string, error) {
 		products, err := r.commandExecutor.ListProductNames()
 		if err != nil {
 			return "", err
@@ -19,16 +19,11 @@ func (r *repl) listProducts() {
 		return productsString[:len(productsString)-2], nil
 
 	}
-	r.args = nil
 }
 
-func (r *repl) getProduct() {
-	r.currentCommand = func(i interface{}) (string, error) {
-		s, ok := i.(string)
-		if !ok {
-			return "", fmt.Errorf("invalid product: %v", i)
-		}
-		res, err := r.commandExecutor.GetProductInfo(s)
+func (r *repl) getProduct(name string) {
+	r.currentCommand = func() (string, error) {
+		res, err := r.commandExecutor.GetProductInfo(name)
 		if err != nil {
 			return "", err
 		}

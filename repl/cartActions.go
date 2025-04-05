@@ -7,8 +7,7 @@ import (
 )
 
 func (r *repl) getCart() {
-	r.args = nil
-	r.currentCommand = func(i interface{}) (string, error) {
+	r.currentCommand = func() (string, error) {
 		cart, err := r.commandExecutor.GetCart()
 		if err != nil {
 			return "", err
@@ -31,21 +30,16 @@ func (r *repl) getCart() {
 
 		return cartString, nil
 	}
-	r.args = nil
 }
 
 func (r *repl) addtoCart(productName string, variantId, quantity int) {
-	r.args = commands.CartItem{
+	item := commands.CartItem{
 		ProductName: productName,
 		VariantId:   variantId,
 		Quantity:    quantity,
 	}
 
-	r.currentCommand = func(i interface{}) (string, error) {
-		item, ok := i.(commands.CartItem)
-		if !ok {
-			return "", fmt.Errorf("invalid Item to add to cart: %v", i)
-		}
+	r.currentCommand = func() (string, error) {
 
 		if err := r.commandExecutor.ManageCart(item.ProductName, item.VariantId, item.Quantity); err != nil {
 			return "", err
@@ -55,18 +49,13 @@ func (r *repl) addtoCart(productName string, variantId, quantity int) {
 }
 
 func (r *repl) removeFromCart(productName string, variantId, quantity int) {
-	r.args = commands.CartItem{
+	item := commands.CartItem{
 		ProductName: productName,
 		VariantId:   variantId,
 		Quantity:    quantity,
 	}
 
-	r.currentCommand = func(i interface{}) (string, error) {
-		item, ok := i.(commands.CartItem)
-		if !ok {
-			return "", fmt.Errorf("invalid Item to add to cart: %v", i)
-		}
-
+	r.currentCommand = func() (string, error) {
 		if err := r.commandExecutor.ManageCart(item.ProductName, item.VariantId, item.Quantity); err != nil {
 			return "", err
 		}
@@ -75,8 +64,7 @@ func (r *repl) removeFromCart(productName string, variantId, quantity int) {
 }
 
 func (r *repl) convertToOrder() {
-	r.args = nil
-	r.currentCommand = func(i interface{}) (string, error) {
+	r.currentCommand = func() (string, error) {
 		tracking, err := r.commandExecutor.ConvertToOrder()
 		if err != nil {
 			return "", err

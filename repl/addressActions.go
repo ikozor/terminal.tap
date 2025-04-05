@@ -36,13 +36,7 @@ func validAddress(addressString string) (terminal.AddressNewParams, error) {
 }
 
 func (r *repl) AddAddressAction(address terminal.AddressNewParams) {
-	r.args = address
-
-	r.currentCommand = func(i interface{}) (string, error) {
-		address, ok := i.(terminal.AddressNewParams)
-		if !ok {
-			return "", fmt.Errorf("Address type is not valid: %v", i)
-		}
+	r.currentCommand = func() (string, error) {
 		if err := r.commandExecutor.AddAddress(address); err != nil {
 			return "", err
 		}
@@ -51,8 +45,7 @@ func (r *repl) AddAddressAction(address terminal.AddressNewParams) {
 }
 
 func (r *repl) listAddresses() {
-	r.args = nil
-	r.currentCommand = func(i interface{}) (string, error) {
+	r.currentCommand = func() (string, error) {
 		addresses, err := r.commandExecutor.ListAddresses()
 		if err != nil {
 			return "", err
@@ -81,32 +74,17 @@ func (r *repl) listAddresses() {
 }
 
 func (r *repl) removeAddress(name string) {
-	r.args = name
-
-	r.currentCommand = func(i interface{}) (string, error) {
-		str, ok := i.(string)
-		if !ok {
-			return "", fmt.Errorf("invalid address name: %v", i)
-		}
-
-		if err := r.commandExecutor.RemoveAddress(str); err != nil {
+	r.currentCommand = func() (string, error) {
+		if err := r.commandExecutor.RemoveAddress(name); err != nil {
 			return "", err
 		}
-
 		return fmt.Sprintf("Successfully Removed address: %s", name), nil
 	}
 }
 
 func (r *repl) setAddress(name string) {
-	r.args = name
-
-	r.currentCommand = func(i interface{}) (string, error) {
-		str, ok := i.(string)
-		if !ok {
-			return "", fmt.Errorf("invalid address name: %v", i)
-		}
-
-		if err := r.commandExecutor.SetAddress(str); err != nil {
+	r.currentCommand = func() (string, error) {
+		if err := r.commandExecutor.SetAddress(name); err != nil {
 			return "", err
 		}
 		return fmt.Sprintf("Address %s set successfully", name), nil

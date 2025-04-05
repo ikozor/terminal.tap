@@ -13,8 +13,7 @@ import (
 
 type repl struct {
 	line            string
-	currentCommand  func(interface{}) (string, error)
-	args            interface{}
+	currentCommand  func() (string, error)
 	commandExecutor *commands.CommandExecutor
 	scanner         *bufio.Scanner
 }
@@ -38,8 +37,7 @@ func (r *repl) Read() error {
 }
 
 func (r *repl) Evaluate() error {
-	r.args = nil
-	r.currentCommand = func(i interface{}) (string, error) { return "", nil }
+	r.currentCommand = func() (string, error) { return "", nil }
 	line := strings.Split(r.line, " ")
 	if len(line) < 1 || line[0] == "" {
 		// nothing happened
@@ -63,8 +61,8 @@ func (r *repl) Evaluate() error {
 			for _, e := range line[2:] {
 				productName += e + " "
 			}
-			r.args = productName[:len(productName)-1]
-			r.getProduct()
+
+			r.getProduct(productName[:len(productName)-1])
 
 		default:
 			return fmt.Errorf("Product action not found: %s", line[1])
@@ -309,5 +307,5 @@ func (r *repl) Process() (string, error) {
 	if r.currentCommand == nil {
 		return "", fmt.Errorf("No current command to execute")
 	}
-	return r.currentCommand(r.args)
+	return r.currentCommand()
 }

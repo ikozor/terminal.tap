@@ -5,8 +5,7 @@ import (
 )
 
 func (r *repl) listOrders() {
-	r.args = nil
-	r.currentCommand = func(i interface{}) (string, error) {
+	r.currentCommand = func() (string, error) {
 		orders, err := r.commandExecutor.ListOrders()
 		if err != nil {
 			return "", err
@@ -25,12 +24,7 @@ func (r *repl) listOrders() {
 }
 
 func (r *repl) getOrder(id int) {
-	r.args = id
-	r.currentCommand = func(i interface{}) (string, error) {
-		id, ok := i.(int)
-		if !ok {
-			return "", fmt.Errorf("Id invalid format: %v", i)
-		}
+	r.currentCommand = func() (string, error) {
 		order, err := r.commandExecutor.GetOrder(id)
 		if err != nil {
 			return "", err
