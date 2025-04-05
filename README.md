@@ -6,7 +6,7 @@ Go to [api docs](https://github.com/ikozor/terminal.tap/blob/main/api.md) to see
 To to [morse code](https://github.com/ikozor/terminal.tap/blob/main/morsecode.md) to see the Morse code translation (I had to add some characters to work with terminal.shop api)
 
 ## Environment
-To see how to set up the .env file, look at [example.env](https://github.com/ikozor/terminal.tap/blob/main/example.env).
+To see how to set up the .env file, look at [example.env](https://github.com/ikozor/terminal.tap/blob/main/example.env). File name must be *.env*
 
 **terminal.shop**
 
