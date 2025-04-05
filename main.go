@@ -16,7 +16,7 @@ func main() {
 	if err := godotenv.Load(); err != nil {
 		panic(err)
 	}
-	apiKey, ok := os.LookupEnv("TERMINAL_BEARER_TOKEN")
+	apiKey, ok := os.LookupEnv("TERMINAL_TOKEN")
 	if !ok {
 		panic("No api key provided")
 	}

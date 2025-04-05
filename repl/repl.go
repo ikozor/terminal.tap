@@ -193,13 +193,13 @@ func (r *repl) Evaluate() error {
 			if len(line) < 3 {
 				return fmt.Errorf("Address to remove not specified")
 			}
-			r.removeAddress(line[2])
+			r.removeAddress(strings.Join(line[2:], " "))
 
 		case "SET":
 			if len(line) < 3 {
 				return fmt.Errorf("No address to set specified")
 			}
-			r.setAddress(line[2])
+			r.setAddress(strings.Join(line[2:], " "))
 
 		default:
 			return fmt.Errorf("Address action not found: %s", line[1])

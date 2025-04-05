@@ -10,7 +10,7 @@ To see how to set up the .env file, look at [example.env](https://github.com/iko
 
 **terminal.shop**
 
-The .env file should contain your api key as `TERMINAL_BEARER_TOKEN` and url as `TERMINAL_URL` .
+The .env file should contain your api key as `TERMINAL_TOKEN` and url as `TERMINAL_URL` .
 
 ***Optional:* input/output**
 
