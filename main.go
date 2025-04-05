@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"log"
 	"os"
 	"strings"
 
@@ -39,19 +40,27 @@ func main() {
 		fmt.Printf("Unknown input: %s\n", confirmation)
 	}
 
+	log.SetFlags(0)
+	if output == "stdout" {
+		log.SetOutput(os.Stdout)
+	} else {
+		file, err := os.OpenFile(output, os.O_RDWR, 0666)
+		if err != nil {
+			panic(err)
+		}
+		defer file.Close()
+		log.SetOutput(file)
+	}
+
 	r := repl.NewRepl(input)
 	for {
 		if err := r.Read(); err != nil {
 			morse, morseErr := morsecode.ReadStringIntoMorse(err.Error())
 			if morseErr != nil {
 				// print invalid morse code character found
-				fmt.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
+				log.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
 			}
-			fmt.Println(morse)
-
-			text, err := morsecode.ReadMorseIntoString(morse)
-			fmt.Println(text)
-			fmt.Println(err)
+			log.Println(morse)
 			continue
 		}
 
@@ -59,39 +68,28 @@ func main() {
 			morse, morseErr := morsecode.ReadStringIntoMorse(err.Error())
 			if morseErr != nil {
 				// print invalid morse code character found
-				fmt.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
+				log.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
 			}
-			fmt.Println(morse)
-
-			text, err := morsecode.ReadMorseIntoString(morse)
-			fmt.Println(text)
-			fmt.Println(err)
+			log.Println(morse)
 			continue
 		}
+
 		res, err := r.Process()
 		if err != nil {
 			morse, morseErr := morsecode.ReadStringIntoMorse(err.Error())
 			if morseErr != nil {
 				// print invalid morse code character found
-				fmt.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
+				log.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
 			}
-			fmt.Println(morse)
-
-			text, err := morsecode.ReadMorseIntoString(morse)
-			fmt.Println(text)
-			fmt.Println(err)
+			log.Println(morse)
 			continue
 		}
 		morse, morseErr := morsecode.ReadStringIntoMorse(res)
 		if morseErr != nil {
 			// print invalid morse code character found
-			fmt.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
+			log.Println(".. -. ...- .- .-.. .. -.. / -- --- .-. ... . / -.-. --- -.. . / -.-. .... .- .-. .- -.-. - . .-.")
 		}
-		fmt.Println(morse)
-		text, err := morsecode.ReadMorseIntoString(morse)
-		fmt.Println(text)
-		fmt.Println(err)
-
+		log.Println(morse)
 	}
 }
 
