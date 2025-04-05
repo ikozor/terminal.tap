@@ -12,6 +12,8 @@ To see how to set up the .env file, look at [example.env](https://github.com/iko
 
 The .env file should contain your api key as `TERMINAL_TOKEN` and url as `TERMINAL_URL` .
 
+To setup an api token, see [terminal.shop/api](https://www.terminal.shop/api#authentication)
+
 ***Optional:* input/output**
 
 You can also set input and output files in the .env; if you do not set them, they will default to stdin and stdout. Set input as `INPUT` and output as `OUTPUT`. The program will only read from the input file when a change has been detected and will only read the last line.
