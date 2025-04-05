@@ -16,17 +16,22 @@ type CommandExecutor struct {
 	currentCard     string
 }
 
-func CreateCommandExecutor() *CommandExecutor {
+func CreateCommandExecutor(apiUrl, apiKey string) *CommandExecutor {
 
 	client := terminal.NewClient(
-		option.WithBaseURL("https://api.dev.terminal.shop"), // the Double Slash was causing panic
+		option.WithBearerToken(apiKey),
+		option.WithBaseURL(apiUrl), // the Double Slash was causing panic
 	)
 	return &CommandExecutor{client: client}
 
 }
 
 func getApiErrorMessage(err error) error {
+	fmt.Println(err)
 	bodyIndex := strings.Index(err.Error(), "{")
+	if bodyIndex == -1 {
+		panic("invalid response from server, check TERMINAL_URL")
+	}
 	bodyString := err.Error()[bodyIndex:]
 
 	body := map[string]string{}

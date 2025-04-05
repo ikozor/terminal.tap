@@ -9,19 +9,30 @@ import (
 
 	morsecode "github.com/ikozor/terminal.tap/morse-code"
 	"github.com/ikozor/terminal.tap/repl"
-	"gopkg.in/yaml.v3"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	input := "stdin"
-	output := "stdout"
-	config := getInputOutput()
-
-	if config.Input != "" {
-		input = config.Input
+	if err := godotenv.Load(); err != nil {
+		panic(err)
 	}
-	if config.Output != "" {
-		output = config.Output
+	apiKey, ok := os.LookupEnv("TERMINAL_BEARER_TOKEN")
+	if !ok {
+		panic("No api key provided")
+	}
+	apiUrl, ok := os.LookupEnv("TERMINAL_URL")
+	if !ok {
+		panic("No api url provided")
+	}
+
+	var input, output string
+	input, ok = os.LookupEnv("INPUT")
+	if !ok {
+		input = "stdin"
+	}
+	output, ok = os.LookupEnv("OUTPUT")
+	if !ok {
+		output = "stdout"
 	}
 
 	confirm := bufio.NewScanner(os.Stdin)
@@ -52,7 +63,7 @@ func main() {
 		log.SetOutput(file)
 	}
 
-	r := repl.NewRepl(input)
+	r := repl.NewRepl(apiUrl, apiKey, input)
 	for {
 		if err := r.Read(); err != nil {
 			morse, morseErr := morsecode.ReadStringIntoMorse(err.Error())
@@ -91,24 +102,4 @@ func main() {
 		}
 		log.Println(morse)
 	}
-}
-
-type inputOutput struct {
-	Input  string `yaml:"input"`
-	Output string `yaml:"output"`
-}
-
-func getInputOutput() inputOutput {
-	file, err := os.ReadFile("config.yaml")
-	config := inputOutput{}
-	if err != nil {
-		return inputOutput{}
-	}
-
-	err = yaml.Unmarshal(file, &config)
-	if err != nil {
-		return inputOutput{}
-	}
-
-	return config
 }

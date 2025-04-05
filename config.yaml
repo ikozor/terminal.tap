@@ -1,5 +1,0 @@
-# The location where you will pipe the morsecode strings
-# input: input.txt
-
-# The location which the program will pipe the output morse code string
-# output: output.txt

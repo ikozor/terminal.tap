@@ -22,12 +22,12 @@ type repl struct {
 	filePos         int64
 }
 
-func NewRepl(input string) *repl {
+func NewRepl(apiUrl, apiKey, input string) *repl {
 	if input == "stdin" {
 		fmt.Print("\033[H\033[2J")
 		return &repl{
 			scanner:         bufio.NewScanner(os.Stdin),
-			commandExecutor: commands.CreateCommandExecutor(),
+			commandExecutor: commands.CreateCommandExecutor(apiUrl, apiKey),
 		}
 	}
 
@@ -46,7 +46,7 @@ func NewRepl(input string) *repl {
 
 	return &repl{
 		tail:            tail,
-		commandExecutor: commands.CreateCommandExecutor(),
+		commandExecutor: commands.CreateCommandExecutor(apiUrl, apiKey),
 	}
 
 }
