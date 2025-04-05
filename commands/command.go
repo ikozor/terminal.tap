@@ -27,7 +27,6 @@ func CreateCommandExecutor(apiUrl, apiKey string) *CommandExecutor {
 }
 
 func getApiErrorMessage(err error) error {
-	fmt.Println(err)
 	bodyIndex := strings.Index(err.Error(), "{")
 	if bodyIndex == -1 {
 		panic("invalid response from server, check TERMINAL_URL")
