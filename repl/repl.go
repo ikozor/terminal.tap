@@ -3,12 +3,14 @@ package repl
 import (
 	"bufio"
 	"fmt"
+	"io"
 	"os"
 	"strconv"
 	"strings"
 
 	"github.com/ikozor/terminal.tap/commands"
 	morsecode "github.com/ikozor/terminal.tap/morse-code"
+	"github.com/nxadm/tail"
 )
 
 type repl struct {
@@ -16,23 +18,58 @@ type repl struct {
 	currentCommand  func() (string, error)
 	commandExecutor *commands.CommandExecutor
 	scanner         *bufio.Scanner
+	tail            *tail.Tail
+	filePos         int64
 }
 
-func NewRepl() *repl {
+func NewRepl(input string) *repl {
+	if input == "stdin" {
+		fmt.Print("\033[H\033[2J")
+		return &repl{
+			scanner:         bufio.NewScanner(os.Stdin),
+			commandExecutor: commands.CreateCommandExecutor(),
+		}
+	}
+
+	tail, err := tail.TailFile(input, tail.Config{
+		Follow: true,
+		ReOpen: true,
+		Logger: tail.DiscardingLogger,
+		Location: &tail.SeekInfo{
+			Offset: 0,
+			Whence: io.SeekEnd,
+		},
+	})
+	if err != nil {
+		panic(fmt.Errorf("Error trying to tail %s", input))
+	}
+
 	return &repl{
-		scanner:         bufio.NewScanner(os.Stdin),
+		tail:            tail,
 		commandExecutor: commands.CreateCommandExecutor(),
 	}
+
 }
 
 func (r *repl) Read() error {
-	fmt.Print("> ")
-	r.scanner.Scan()
-	text, err := morsecode.ReadMorseIntoString(r.scanner.Text())
-	if err != nil {
-		return err
+	if r.scanner != nil {
+		fmt.Print("> ")
+		r.scanner.Scan()
+		text, err := morsecode.ReadMorseIntoString(r.scanner.Text())
+		if err != nil {
+			return err
+		}
+		r.line = text
+		return nil
 	}
-	r.line = text
+	for line := range r.tail.Lines {
+		text, err := morsecode.ReadMorseIntoString(line.Text)
+		if err != nil {
+			return err
+		}
+		r.line = text
+		return nil
+	}
 	return nil
 }
 
