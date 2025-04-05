@@ -52,7 +52,7 @@ plaintext result: ```SUCCESSFULLY ADDED TO CART```
 
 ### CART REMOVE <PRODUCT_NAME> <VARIANT_ID> <optional: QUANTITY>
 Remove product from the cart, can specify quantity, if quantity is not specified, will remove the whole product from the cart
-
+> to see variant id, do PRODUCT GET <PRODUCT_NAME>
 **Example:** CART REMOVE SEGFAULT 0
 
 command: ```-.-. .- .-. - / .-. . -- --- ...- . / ... . --. ..-. .- ..- .-.. - / -----```
@@ -63,9 +63,9 @@ plaintext result: ```SUCCESSFULLY REMOVED ITEM FROM CART```
 
 ### CART ORDER 
 Convert the current cart to an order with set card and address
+Must set card and address first
 
 **Example**
-> Assuming the user already set the card and address
 
 command: ```-.-. .- .-. - / --- .-. -.. . .-.```
 
@@ -216,6 +216,7 @@ plaintext result: ```(ID: 0, AMOUNT: 2200)```
 
 ### ORDER GET <ORDER_ID>
 Get details about the order by the id
+> To get order id, do ORDER LIST
 
 **Example:** ORDER GET 0
 
@@ -249,3 +250,26 @@ result: ```... -.-. .... . -.. ..- .-.. . ---... / .--..-- - -.-- .--. . ---... 
 
 plaintext result: ```SCHEDULE: [TYPE: , INTERVAL: 0], PRODUCT: [NAME: CRON, VARIANT: 12OZ, QUANTITY: 1], NEXT: 0000-00-00, ADDRESS : [NAME: HOME, STREET 1:  123 ABC ST, CITY:  CITY, STATE: ST, ZIPCODE: 12345, COUNTRY: US, PHONE NUMBER: 4205556969], CARD: [VISA, LAST 4: 4242, EXP: 11/2029]```
 
+### SUBSCRIBE ADD <PRODUCT_NAME> <VARIANT_ID> <QUANTITY> 
+Create a new subscription
+> must set address and card first
+
+**Example:** SUBSCRIBE ADD CRON 0 1
+
+command: ```... ..- -... ... -.-. .-. .. -... . / .- -.. -.. / -.-. .-. --- -. / ----- / .----```
+
+result: ```... ..- -... ... -.-. .-. .. .--. - --- -. / ... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / .- -.. -.. . -..```
+
+plaintext result: ```SUBSCRIPTON SUCCESSFULLY ADDED```
+
+### SUBSCRIBE REMOVE <SUBSCRIBE_ID>
+Remove a subscription by id
+> see id by doing SUBSCRIBE LIST
+
+**Example:** SUBSCRIBE REMOVE 0
+
+command: ```... ..- -... ... -.-. .-. .. -... . / .-. . -- --- ...- . / -----```
+
+result: ```... ..- -... ... -.-. .-. .. .--. - .. --- -. / ----- / ... ..- -.-. -.-. . ... ... ..-. ..- .-.. .-.. -.-- / .-. . -- --- ...- . -..```
+
+plaintext result: ```SUBSCRIPTION 0 SUCCESSFULLY REMOVED```

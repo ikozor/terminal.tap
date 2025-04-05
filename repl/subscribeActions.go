@@ -2,6 +2,8 @@ package repl
 
 import (
 	"fmt"
+
+	"github.com/ikozor/terminal.tap/commands"
 )
 
 func (r *repl) listSubscriptions() {
@@ -89,5 +91,35 @@ func (r *repl) getSubscription(id int) {
 
 		return str, nil
 
+	}
+}
+
+func (r *repl) addSubscription(newSub commands.NewSubscription) {
+	r.args = newSub
+
+	r.currentCommand = func(i interface{}) (string, error) {
+		newSubscription, ok := i.(commands.NewSubscription)
+		if !ok {
+			return "", fmt.Errorf("Subscripton type invalid: %v", i)
+		}
+		if err := r.commandExecutor.AddSubscription(newSubscription); err != nil {
+			return "", err
+		}
+		return "Subscripton successfully added", nil
+	}
+
+}
+
+func (r *repl) removeSubscription(id int) {
+	r.args = id
+	r.currentCommand = func(i interface{}) (string, error) {
+		id, ok := i.(int)
+		if !ok {
+			return "", fmt.Errorf("id must be int: %v", i)
+		}
+		if err := r.commandExecutor.RemoveSubscription(id); err != nil {
+			return "", err
+		}
+		return fmt.Sprintf("Subscription %d successfully removed", id), nil
 	}
 }

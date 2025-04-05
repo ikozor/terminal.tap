@@ -106,3 +106,17 @@ func (c *CommandExecutor) FindProductByTerminalProductVariantId(productVariantId
 	return product{}, fmt.Errorf("No product found by variant")
 
 }
+
+func (c *CommandExecutor) FindProductByName(name string) (terminal.Product, error) {
+	if c.currentProducts == nil {
+		if err := c.populateCurrentProducts(); err != nil {
+			return terminal.Product{}, err
+		}
+	}
+	for _, e := range c.currentProducts {
+		if strings.ToUpper(e.Name) == name {
+			return e, nil
+		}
+	}
+	return terminal.Product{}, fmt.Errorf("No product found with name: %s", name)
+}

@@ -258,7 +258,41 @@ func (r *repl) Evaluate() error {
 			}
 			r.getSubscription(id)
 		case "ADD":
+			newSub := commands.NewSubscription{}
+			if len(line) < 3 {
+				return fmt.Errorf("Product to subscribe to not specified")
+			}
+			newSub.ProductName = line[2]
+
+			if len(line) < 4 {
+				return fmt.Errorf("Product Variant to subscribe to not specified")
+			}
+			variantId, err := strconv.Atoi(line[3])
+			if err != nil {
+				return fmt.Errorf("Variant id must be int: %s", line[3])
+			}
+			newSub.ProductVariantId = variantId
+
+			if len(line) < 5 {
+				return fmt.Errorf("Quantity not specified")
+			}
+			quantity, err := strconv.Atoi(line[4])
+			if err != nil {
+				return fmt.Errorf("quantity must be int: %s", line[4])
+			}
+			newSub.Quantity = quantity
+			r.addSubscription(newSub)
+
 		case "REMOVE":
+			if len(line) < 3 {
+				return fmt.Errorf("Subscription id to remove not specified")
+			}
+			id, err := strconv.Atoi(line[2])
+			if err != nil {
+				return fmt.Errorf("Subscription id must be int: %s", line[2])
+			}
+			r.removeSubscription(id)
+
 		default:
 			return fmt.Errorf("Subscribe action not found: %s", line[1])
 		}
